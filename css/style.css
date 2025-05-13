@@ -1,0 +1,33 @@
+/* Global reset and basic utilities */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 1rem;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #007bff;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #0056b3;
+}
