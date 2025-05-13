@@ -7,10 +7,20 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+<script>
+  (function(){
+    const pwd = prompt('Enter password to access content');
+    if (pwd !== 'password123') {
+      document.write('<h1>Unauthorized</h1>');
+      throw new Error('Unauthorized');
+    }
+  })();
+</script>
   <h1>Interactive Content App</h1>
-  <nav>
-    <ul>
-      <li><a href="content/simple-example/index.html">Simple Example</a></li>
+      <nav>
+        <ul>
+          <li><a href="content/simple-example/index.html">Simple Example</a></li>
+          <li><a href="content/proposal/index.html">Proposal Module</a></li>
     </ul>
   </nav>
   <script src="js/main.js"></script>
