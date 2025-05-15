@@ -2,9 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/7A-PROJECTS-SITRUNA/vite.svg" />
+    <!-- Fix URL by using relative paths for all resources -->
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sitruna</title>
+    <!-- SPA GitHub Pages redirect script -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
     
     <!-- Debug script to show environment information -->
     <script type="text/javascript">
@@ -45,9 +58,17 @@
   <body>
     <div id="root"></div>
     <!-- 
-      Using a relative path that will be correctly processed by Vite for both
-      development and production (GitHub Pages) environments 
+      Use properly processed paths for build-time environment-specific URLs.
+      This ensures correct references in both dev and production builds.
     -->
-    <script type="module" src="./src/main.tsx"></script>
+    <!-- 
+    Using Vite's asset URL handling which will be replaced at build time.
+    This ensures correct paths in both development and GitHub Pages environments.
+  -->
+  <!-- 
+    We use relative path (rather than absolute) to ensure compatibility 
+    with both development environment and GitHub Pages.
+  -->
+  <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>

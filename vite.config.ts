@@ -21,7 +21,8 @@ export default defineConfig({
       ]
     })
   ],
-  base: process.env.NODE_ENV === 'production' ? '/7A-PROJECTS-SITRUNA/' : '/',
+  // Critical fix: Using './' instead of '/7A-PROJECTS-SITRUNA/' for proper asset loading on GitHub Pages
+  base: process.env.NODE_ENV === 'production' ? './' : '/',
   // FIXED: Change public directory from 'content' to 'public'
   publicDir: 'public',
   server: { port: 3000 },
@@ -46,6 +47,16 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
         },
+        // Ensure proper MIME types for all assets
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info.pop();
+          const name = info.join('.');
+          return `assets/${name}-[hash].${ext}`;
+        },
+        // Ensure module scripts are correctly processed
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       }
     },
     // Skip TypeScript checking for faster builds

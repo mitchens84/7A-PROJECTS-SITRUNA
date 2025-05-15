@@ -9,6 +9,15 @@ import {
 } from './content-registry';
 import { useParams } from 'react-router-dom';
 
+// Define critical paths that should always have a fallback
+const CRITICAL_PATHS = ['proposal', 'knowledge-map', 'simple-example'];
+
+// Create a function to generate fallback iframe URLs
+const getFallbackIframeSrc = (path: string): string => {
+  const basePath = import.meta.env.DEV ? '' : './';
+  return `${basePath}content/${path}/index.html`;
+};
+
 const ContentRenderer: React.FC<{ module?: ModuleConfig }> = ({ module }) => {
   const { modulePath } = useParams<{ modulePath: string }>();
   // State will hold ModuleConfig or null
@@ -45,6 +54,29 @@ const ContentRenderer: React.FC<{ module?: ModuleConfig }> = ({ module }) => {
       setModuleConfig(foundModuleConfig);
     } else {
       console.error(`[ContentRenderer] Content module config not found for path: '${modulePath}'.`);
+      
+      // Add fallback mechanism for specific paths
+      const normalizedPath = modulePath?.replace(/^\/+/, '') || '';
+      
+      // Check if this is a critical path that should have a fallback
+      if (normalizedPath && CRITICAL_PATHS.includes(normalizedPath)) {
+        console.log(`[ContentRenderer] Creating fallback for ${normalizedPath} path`);
+        const fallbackModule: ModuleConfig = {
+          id: `${normalizedPath}-fallback`,
+          title: `${normalizedPath.charAt(0).toUpperCase() + normalizedPath.slice(1)} (Fallback)`,
+          path: normalizedPath,
+          category: 'Content',
+          type: 'iframe',
+          entryPoint: `${normalizedPath}/index.html`,
+          description: `Fallback ${normalizedPath} content`
+        };
+        console.log('[ContentRenderer] Using fallback module:', fallbackModule);
+        setModuleConfig(fallbackModule);
+        setError(null);
+        return;
+      }
+      
+      // For other paths, show error
       setError(`Content module not found: ${modulePath}.`);
       setModuleConfig(null); // Explicitly set to null for not found
     }
@@ -59,9 +91,49 @@ const ContentRenderer: React.FC<{ module?: ModuleConfig }> = ({ module }) => {
     return <div className="p-4">Loading module information...</div>;
   }
 
-  // Handle not found state
+  // Handle not found state with robust fallback
   if (moduleConfig === null) {
-    return <div className="p-4">Module '<code>{modulePath}</code>' not found. Please ensure it's configured and run <code>npm run update-content</code>.</div>;
+    console.log(`[ContentRenderer] Module not found, checking for fallback...`);
+    
+    // Create fallback module for /proposal path
+    if (modulePath === 'proposal' || modulePath === '/proposal') {
+      console.log(`[ContentRenderer] Using fallback for proposal path`);
+      return <iframe 
+        src={`${import.meta.env.BASE_URL}content/proposal/index.html`}
+        className="w-full h-screen border-none"
+        title="Proposal Content"
+      />;
+    }
+    
+    // Check if the path is critical and provide a fallback iframe
+    if (CRITICAL_PATHS.includes(modulePath)) {
+      console.log(`[ContentRenderer] Critical path not found, using fallback iframe for: ${modulePath}`);
+      const fallbackSrc = getFallbackIframeSrc(modulePath);
+      return (
+        <iframe
+          src={fallbackSrc}
+          title={`Fallback content for ${modulePath}`}
+          className="w-full h-full border-0"
+          style={{ height: 'calc(100vh - 64px)' }}
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        />
+      );
+    }
+    
+    return <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+      <h2 className="text-xl font-semibold text-red-600 mb-2">Module Not Found</h2>
+      <p className="mb-3">The requested content module could not be found: <code>{modulePath}</code></p>
+      <p className="text-sm text-gray-600">Check the URL or contact the administrator.</p>
+      <div className="mt-4 p-3 bg-gray-100 rounded text-xs overflow-auto max-h-32">
+        <strong>Debug Info:</strong>
+        <pre>{JSON.stringify({
+          modulePath,
+          availablePaths: import.meta.env.DEV ? 
+            'Check console for available modules' : 
+            'Not available in production for security'
+        }, null, 2)}</pre>
+      </div>
+    </div>;
   }
 
   console.log(`[ContentRenderer] Rendering module '${moduleConfig.title}' (type: ${moduleConfig.type})`);

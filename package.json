@@ -7,13 +7,14 @@
   "scripts": {
     "dev": "vite",
     "copy-content": "node --no-warnings=ExperimentalWarning scripts/copy_to_public.js",
-    "build": "npm run copy-content && vite build --mode production",
-    "postbuild": "node --no-warnings=ExperimentalWarning scripts/prepare_deploy.js",
+    "build": "npm run copy-content && vite build --mode production --base=./",
+    "postbuild": "node --no-warnings=ExperimentalWarning scripts/prepare_deploy.js && node --no-warnings=ExperimentalWarning scripts/fix-github-pages.js",
     "serve": "vite preview",
     "update-content": "ts-node --esm scripts/update-content.ts",
     "static": "node static-server.js",
-    "deploy": "npm run update-content && NODE_ENV=production npm run build && gh-pages -d dist",
-    "predeploy": "echo 'Running predeploy script'",
+    "predeploy": "npm run update-content && NODE_ENV=production npm run build",
+    "deploy": "gh-pages -d dist",
+    "deploy-full": "npm run update-content && NODE_ENV=production npm run build && gh-pages -d dist",
     "preview": "vite preview --port 3001 --base=/7A-PROJECTS-SITRUNA/"
   },
   "repository": {

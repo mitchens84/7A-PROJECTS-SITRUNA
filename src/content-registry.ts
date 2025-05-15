@@ -18,8 +18,8 @@ export const contentModulesConfig: ModuleConfig[] = [
     id: "proposal",
     title: "AI Workflow Proposal",
     path: "proposal",
-    type: "react-component",
-    entryPoint: "proposal/proposal.tsx",
+    type: "iframe",
+    entryPoint: "proposal/index.html",
     description: "AI Workflow Proposal for Business Applications",
     category: "Business",
   },
@@ -64,7 +64,6 @@ export const contentModulesConfig: ModuleConfig[] = [
 // Key: moduleConfig.entryPoint for react-component types
 // Value: React.LazyExoticComponent
 export const moduleComponents: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
-  "proposal/proposal.tsx": React.lazy(() => import("../content/proposal/proposal")),
   "250514-SITRUNA-KNOWLEDGE-MAP-FIXED.tsx": React.lazy(() => import("../content/250514-SITRUNA-KNOWLEDGE-MAP-FIXED")),
   "proposal-v2/proposal/proposal.tsx": React.lazy(() => import("../content/proposal/proposal")),
 };

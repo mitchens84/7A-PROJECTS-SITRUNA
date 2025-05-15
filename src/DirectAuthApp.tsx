@@ -10,10 +10,66 @@ import { CollapsibleTOC } from './components/CollapsibleTOC';
 console.log("🔥🔥🔥 DIRECT AUTH APP LOADED:", new Date().toLocaleTimeString());
 console.log("Registered content modules:", contentModules); // Log the modules it sees
 
+// Register fallback module for the 'proposal' path if it doesn't exist already
+if (!contentModules.some(m => m.path === 'proposal')) {
+  console.log("🔥 Adding fallback proposal module");
+  contentModules.push({
+    id: 'proposal-fallback',
+    title: 'Proposal (Fallback)',
+    path: 'proposal',
+    type: 'iframe',
+    entryPoint: 'proposal/index.html', 
+    description: 'Fallback proposal content',
+    category: 'Business'
+  });
+}
+
 const DirectAuthApp: React.FC = () => {
   console.log("🔥 DirectAuthApp component rendering");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentPathForDebug, setCurrentPathForDebug] = useState(''); // For debugging
+  
+  // Debug panel to show available modules and current path
+  const DebugPanel = () => (
+    <div 
+      style={{
+        position: 'fixed',
+        bottom: '80px',
+        right: '10px',
+        background: 'rgba(255, 255, 200, 0.95)',
+        padding: '10px',
+        fontSize: '12px',
+        maxWidth: '300px',
+        maxHeight: '300px',
+        overflow: 'auto',
+        zIndex: 9999,
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+      }}
+    >
+      <h3 style={{ margin: '0 0 8px', fontSize: '14px' }}>Debug Info</h3>
+      <div><strong>ENV:</strong> {import.meta.env.MODE}</div>
+      <div><strong>BASE_URL:</strong> {import.meta.env.BASE_URL}</div>
+      <div><strong>Current Path:</strong> {currentPathForDebug}</div>
+      <div>
+        <strong>Available Modules:</strong> {contentModules.length}
+      </div>
+      <details>
+        <summary>Module Paths</summary>
+        <ul style={{ margin: '0', paddingLeft: '20px' }}>
+          {contentModules.map((m, i) => (
+            <li key={i}>
+              {m.path} → {m.type} ({m.entryPoint})
+            </li>
+          ))}
+        </ul>
+      </details>
+      <div style={{ marginTop: '8px', fontSize: '10px', color: '#666' }}>
+        Debug Panel v1.0 - {new Date().toLocaleTimeString()}
+      </div>
+    </div>
+  );
 
   useEffect(() => {
     console.log("🔥 DirectAuthApp useEffect running");
@@ -162,7 +218,12 @@ const DirectAuthApp: React.FC = () => {
               >
                 Logout
               </button>
+              
+              {/* Add the debug panel */}
+              <DebugPanel />
             </div>
+
+            <DebugPanel /> {/* Add debug panel here */}
           </>
         ) : (
           <LoginView
