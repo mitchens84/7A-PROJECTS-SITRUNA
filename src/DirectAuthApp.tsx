@@ -77,38 +77,51 @@ const DirectAuthApp: React.FC = () => {
       <div className="min-h-screen bg-gray-100">
         {isAuthenticated ? (
           <>
-            {/* FIXED: Only render header with logout button once */}
             <header className="bg-white shadow-sm p-4 flex justify-between items-center">
               <h1 className="text-xl font-semibold">Sitruna</h1>
+              {/* Logout button is now moved to a fixed position later */}
+            </header>
+            
+            <div className="container mx-auto p-4 relative pb-20"> {/* Added padding-bottom for fixed button */}
+              <Routes>
+                {contentModules.length > 0 ? (
+                  contentModules.map((module) => (
+                    <Route
+                      key={module.id}
+                      path={module.path}
+                      element={<ContentRenderer module={module} />}
+                    />
+                  ))
+                ) : (
+                  <Route path="*" element={<div>No modules available. Please check configuration.</div>} />
+                )}
+                <Route
+                  path="/"
+                  element={
+                    contentModules.length > 0 ? (
+                      <Navigate to={contentModules[0].path} replace />
+                    ) : (
+                      // Fallback if no modules are defined
+                      <div>Welcome to Sitruna. No content modules are currently loaded.</div>
+                    )
+                  }
+                />
+                 {/* Fallback for any unmatched routes within the authenticated app */}
+                <Route path="*" element={<div>Module not found.</div>} />
+              </Routes>
+              
+              <div className="fixed top-20 right-4 z-50">
+                <CollapsibleTOC />
+              </div>
+
+              {/* MOVED Logout Button to Lower Right */}
               <button
                 onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm"
+                className="fixed bottom-4 right-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm shadow-lg z-50"
                 aria-label="Logout"
               >
                 Logout
               </button>
-            </header>
-            
-            <div className="container mx-auto p-4 relative">
-              {/* Main content area */}
-              <Routes>
-                {contentModules.map((module) => (
-                  <Route
-                    key={module.id}
-                    path={module.path}
-                    element={<ContentRenderer module={module} />}
-                  />
-                ))}
-                <Route
-                  path="/"
-                  element={<Navigate to={contentModules[0]?.path || "/"} replace />}
-                />
-              </Routes>
-              
-              {/* FIXED: Only include the CollapsibleTOC once, positioned in upper right */}
-              <div className="fixed top-20 right-4 z-50">
-                <CollapsibleTOC />
-              </div>
             </div>
           </>
         ) : (
