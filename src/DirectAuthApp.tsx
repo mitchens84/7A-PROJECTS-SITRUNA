@@ -88,6 +88,13 @@ const DirectAuthApp: React.FC = () => {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <LocationLogger /> {/* Add logger here */}
       <div className="min-h-screen bg-gray-100">
+        {/* Debug panel showing current environment info - remove in production if desired */}
+        <div className="bg-yellow-100 p-2 text-xs border-b border-yellow-200 text-center">
+          <div>BASE_URL: {import.meta.env.BASE_URL}</div>
+          <div>Current Path: {currentPathForDebug}</div>
+          <div>Mode: {import.meta.env.MODE}</div>
+        </div>
+        
         {isAuthenticated ? (
           <>
             <header className="bg-white shadow-sm p-4 flex justify-between items-center">

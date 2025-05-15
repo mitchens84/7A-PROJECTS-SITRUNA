@@ -4,10 +4,29 @@
   <meta charset="utf-8">
   <title>Sitruna - Page Not Found</title>
   <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
+    // Single Page Apps for GitHub Pages - Updated for 7A-PROJECTS-SITRUNA
     // https://github.com/rafgraph/spa-github-pages
-    var pathSegmentsToKeep = 1;
+    // This script takes the current URL and converts the path and query
+    // string into just a query string, and then redirects the browser
+    // to the new URL with only a query string and hash fragment
+    
+    // This is specifically for GitHub Pages hosting where the repo name is in the path
+    // For example: https://mitchens84.github.io/7A-PROJECTS-SITRUNA/some-path will become
+    // https://mitchens84.github.io/7A-PROJECTS-SITRUNA/?/some-path
+    
+    var pathSegmentsToKeep = 1; // Keep the repository name segment (7A-PROJECTS-SITRUNA)
+    
     var l = window.location;
+    
+    // Save debugging info to localStorage
+    localStorage.setItem('404_debug', JSON.stringify({
+      original: l.href,
+      pathname: l.pathname,
+      segments: l.pathname.split('/'),
+      timestamp: new Date().toISOString()
+    }));
+    
+    // Redirect with the repository name in the path
     l.replace(
       l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
       l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
@@ -19,6 +38,9 @@
 </head>
 <body>
   <h2>Page Not Found</h2>
+  <p>Redirecting you to the home page...</p>
+</body>
+</html>
   <p>Redirecting to home page...</p>
 </body>
 </html>

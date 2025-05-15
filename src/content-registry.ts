@@ -49,6 +49,15 @@ export const contentModulesConfig: ModuleConfig[] = [
     description: "Enhanced AI Workflow Proposal for Business Applications",
     category: "Business",
   },
+  {
+    id: "test-content",
+    title: "Test Content",
+    path: "test-content",
+    type: "iframe",
+    entryPoint: "test/index.html",
+    description: "Test content for debugging purposes",
+    category: "Debug",
+  },
 ];
 
 // Pre-created lazy components for React modules

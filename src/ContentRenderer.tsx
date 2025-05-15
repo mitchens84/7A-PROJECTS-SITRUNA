@@ -16,7 +16,10 @@ const ContentRenderer: React.FC<{ module?: ModuleConfig }> = ({ module }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('CONTENT DEBUG: Available modules:', contentModulesConfig);
+    console.log(`CONTENT DEBUG: Looking for module path: '${modulePath}'`);
     console.log(`[ContentRenderer] useEffect triggered with modulePath: '${modulePath}'`);
+    
     // If module prop was passed directly, use that instead of looking up by path
     if (module) {
       console.log(`[ContentRenderer] Using directly passed module:`, module);
@@ -33,8 +36,9 @@ const ContentRenderer: React.FC<{ module?: ModuleConfig }> = ({ module }) => {
       return;
     }
 
-    const foundModuleConfig = getModuleByPath(modulePath);
     console.log(`[ContentRenderer] Searching for module with path: '${modulePath}'`);
+    const foundModuleConfig = getModuleByPath(modulePath);
+    console.log(`CONTENT DEBUG: Result of getModuleByPath:`, foundModuleConfig);
 
     if (foundModuleConfig) {
       console.log(`[ContentRenderer] Found module config:`, foundModuleConfig);

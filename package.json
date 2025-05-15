@@ -6,11 +6,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode production",
+    "copy-content": "node --no-warnings=ExperimentalWarning scripts/copy_to_public.js",
+    "build": "npm run copy-content && vite build --mode production",
+    "postbuild": "node --no-warnings=ExperimentalWarning scripts/prepare_deploy.js",
     "serve": "vite preview",
     "update-content": "ts-node --esm scripts/update-content.ts",
     "static": "node static-server.js",
-    "deploy": "npm run update-content && npm run build && touch dist/.nojekyll && gh-pages -d dist",
+    "deploy": "npm run update-content && NODE_ENV=production npm run build && gh-pages -d dist",
     "predeploy": "echo 'Running predeploy script'",
     "preview": "vite preview --port 3001 --base=/7A-PROJECTS-SITRUNA/"
   },

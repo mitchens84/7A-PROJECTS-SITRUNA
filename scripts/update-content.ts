@@ -124,8 +124,13 @@ async function main() {
     // If it's a standalone config, entryPoint might be 'MyStandaloneComponent.tsx'
     const isStandaloneModule = (mod as any).isStandalone === true;
     const entry = mod.entryPoint.replace(/^\.\//, ''); // remove leading ./ if present
+    console.log(`[update-content] Raw entry path: ${mod.entryPoint}, cleaned to: ${entry}`);
+    
     const finalEntryPoint = isStandaloneModule ? entry : `${mod.id}/${entry}`;
+    console.log(`[update-content] Final entry point before cleaning: ${finalEntryPoint}`);
+    
     const cleanedEntryPoint = finalEntryPoint.replace(/\.\//g, ''); // Clean up any ./ patterns in the entryPoint
+    console.log(`[update-content] Cleaned entry point: ${cleanedEntryPoint}`);
     
     // For the duplicate proposal/proposal.tsx case, make one of them unique in the config
     let moduleEntryPoint = cleanedEntryPoint;
