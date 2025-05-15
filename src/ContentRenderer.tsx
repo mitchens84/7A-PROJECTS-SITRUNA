@@ -1,44 +1,69 @@
-import React, { Suspense } from 'react';
-import { ContentModule, getModuleByPath } from './content-registry';
-import { useParams } from 'react-router-dom';
+import React, { Suspense, useEffect, useState } from 'react';
+import { getModuleByPath, ContentModule } from './content-registry';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ContentRenderer: React.FC = () => {
   const { modulePath } = useParams<{ modulePath: string }>();
-  const mod: ContentModule | undefined = modulePath
-    ? getModuleByPath(modulePath)
-    : undefined;
+  const [module, setModule] = useState<ContentModule | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  if (!mod) {
-    return <div className="p-4">Module not found.</div>;
+  useEffect(() => {
+    console.log(`[ContentRenderer] useEffect triggered with modulePath: '${modulePath}'`);
+    if (!modulePath) {
+      console.log("[ContentRenderer] No modulePath, attempting to navigate to default.");
+      setError("No content module path specified in URL.");
+      return;
+    }
+
+    const foundModule = getModuleByPath(modulePath);
+    console.log(`[ContentRenderer] Searching for module with path: '${modulePath}'`);
+
+    if (foundModule) {
+      console.log(`[ContentRenderer] Found module:`, foundModule);
+      setModule(foundModule);
+      setError(null);
+    } else {
+      console.error(`[ContentRenderer] Content module not found for path: '${modulePath}'. Navigating to /404`);
+      setError(`Content module not found: ${modulePath}.`);
+    }
+  }, [modulePath, navigate]);
+
+  if (error) {
+    return <div className="p-4 text-red-500">Error: {error}</div>;
   }
 
-  if (mod.type === 'iframe') {
-    // Ensure the path is correctly formed, especially for local HTML files
-    // If entryPoint is relative to public, it should work directly.
-    // If it needs the base URL, ensure it's constructed properly.
-    const iframeSrc = mod.entryPoint.startsWith('http')
-      ? mod.entryPoint
-      : `${import.meta.env.BASE_URL}${mod.entryPoint}`.replace(/\/\//g, '/');
+  if (!module) {
+    return <div className="p-4">Loading module information...</div>;
+  }
 
+  console.log(`[ContentRenderer] Rendering module '${module.title}' (type: ${module.type})`);
+
+  if (module.type === 'iframe') {
+    const iframeSrc = module.entryPoint.startsWith('/') ? module.entryPoint : `/${module.entryPoint}`;
+    console.log(`[ContentRenderer] Rendering iframe with src: '${iframeSrc}' (original entryPoint: '${module.entryPoint}')`);
     return (
       <iframe
         src={iframeSrc}
-        title={mod.title}
-        className="w-full h-screen border-0" // Adjust height as needed
+        title={module.title}
+        className="w-full h-full border-0"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
       />
     );
   }
 
-  if (mod.type === 'react-component' && mod.component) {
-    const Component = mod.component;
+  if (module.type === 'react-component' && module.component) {
+    console.log(`[ContentRenderer] Rendering React component: '${module.title}'`);
+    const Component = module.component;
     return (
-      <Suspense fallback={<div className="p-4">Loading module...</div>}>
+      <Suspense fallback={<div className="p-4">Loading React component...</div>}>
         <Component />
       </Suspense>
     );
   }
 
-  return <div className="p-4">Module type not supported or component not found for "{mod.title}".</div>;
+  console.error(`[ContentRenderer] Unknown module type or missing component for module: '${module.title}'`);
+  return <div className="p-4 text-red-500">Cannot render module: Unknown type or missing component.</div>;
 };
 
 export default ContentRenderer;

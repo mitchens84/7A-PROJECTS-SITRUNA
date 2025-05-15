@@ -1,17 +1,19 @@
 // This is a completely standalone auth solution with no dependencies on other components
 
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'; // Make sure useState is imported
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'; // Add useLocation
 import { contentModules } from './content-registry';
 import ContentRenderer from './ContentRenderer';
 import { CollapsibleTOC } from './components/CollapsibleTOC';
 
 // Very obvious logging
 console.log("🔥🔥🔥 DIRECT AUTH APP LOADED:", new Date().toLocaleTimeString());
+console.log("Registered content modules:", contentModules); // Log the modules it sees
 
 const DirectAuthApp: React.FC = () => {
   console.log("🔥 DirectAuthApp component rendering");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentPathForDebug, setCurrentPathForDebug] = useState(''); // For debugging
 
   useEffect(() => {
     console.log("🔥 DirectAuthApp useEffect running");
@@ -72,49 +74,63 @@ const DirectAuthApp: React.FC = () => {
     );
   };
 
+  // Add a component to capture and log the current location
+  const LocationLogger: React.FC = () => {
+    const location = useLocation();
+    useEffect(() => {
+      console.log("🔥 Current React Router location.pathname:", location.pathname);
+      setCurrentPathForDebug(location.pathname); // Update state for display if needed
+    }, [location]);
+    return null;
+  };
+
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <LocationLogger /> {/* Add logger here */}
       <div className="min-h-screen bg-gray-100">
         {isAuthenticated ? (
           <>
             <header className="bg-white shadow-sm p-4 flex justify-between items-center">
               <h1 className="text-xl font-semibold">Sitruna</h1>
-              {/* Logout button is now moved to a fixed position later */}
             </header>
             
-            <div className="container mx-auto p-4 relative pb-20"> {/* Added padding-bottom for fixed button */}
+            <div className="container mx-auto p-4 relative pb-20">
+              {/* You can add this for debugging if needed: <p>Current Path: {currentPathForDebug}</p> */}
               <Routes>
                 {contentModules.length > 0 ? (
                   contentModules.map((module) => (
                     <Route
                       key={module.id}
-                      path={module.path}
+                      path={module.path} // These paths are relative to the basename
                       element={<ContentRenderer module={module} />}
                     />
                   ))
                 ) : (
-                  <Route path="*" element={<div>No modules available. Please check configuration.</div>} />
+                  // This case should ideally not be hit if update-content works
+                  <Route path="*" element={<div className="p-4 text-center">No modules available. Please run `npm run update-content` and check configuration.</div>} />
                 )}
+
                 <Route
-                  path="/"
+                  path="/" // Handles the base path after login
                   element={
                     contentModules.length > 0 ? (
+                      // Navigate to the first module's path
                       <Navigate to={contentModules[0].path} replace />
                     ) : (
-                      // Fallback if no modules are defined
-                      <div>Welcome to Sitruna. No content modules are currently loaded.</div>
+                      <div className="p-4 text-center">Welcome to Sitruna. No content modules are currently loaded.</div>
                     )
                   }
                 />
-                 {/* Fallback for any unmatched routes within the authenticated app */}
-                <Route path="*" element={<div>Module not found.</div>} />
+                
+                {/* Fallback for any unmatched routes AFTER specific module routes and the root redirect */}
+                {/* This will render if the URL doesn't match any module.path or "/" */}
+                <Route path="*" element={<div className="p-4 text-center">Module not found for the current URL.</div>} />
               </Routes>
               
               <div className="fixed top-20 right-4 z-50">
                 <CollapsibleTOC />
               </div>
 
-              {/* MOVED Logout Button to Lower Right */}
               <button
                 onClick={handleLogout}
                 className="fixed bottom-4 right-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm shadow-lg z-50"
