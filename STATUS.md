@@ -9,6 +9,7 @@
 - **Content Integration**: Auto-generated registry from module configuration files
 - **Authentication**: Client-side password protection with localStorage persistence
 - **UI Components**: Responsive Collapsible TOC with category grouping
+- **Deployment**: GitHub Pages
 
 ## Completed Implementation
 
@@ -25,6 +26,10 @@
 - Implemented client-side password protection with localStorage persistence
 - Added logout functionality for secure session management
 - Enhanced table of contents with category grouping and improved accessibility
+- Fixed UI clash between logout button and table of contents
+- Added Sitruna Knowledge Map module with proper TypeScript interfaces
+- Added AI Workflow Proposal V2 module with category organization
+- Deployed to GitHub Pages with proper base path configuration
 
 ## Recent Fixes and Improvements
 
@@ -41,6 +46,15 @@
   - Added collapsible, responsive table of contents
   - Implemented category grouping view for better organization
   - Enhanced overall accessibility with ARIA attributes and keyboard navigation
+  - Fixed clash between logout button and table of contents by moving the button to the left side
+- **Content Modules**:
+  - Added Sitruna Knowledge Map with proper TypeScript interfaces for strong typing
+  - Added AI Workflow Proposal V2 with enhanced business category
+  - Fixed content registry interface definition with proper category support
+- **Deployment**:
+  - Configured base URL for GitHub Pages deployment
+  - Added `.nojekyll` file to prevent GitHub Pages processing
+  - Successfully deployed to GitHub Pages
 
 ## Architectural Improvements
 

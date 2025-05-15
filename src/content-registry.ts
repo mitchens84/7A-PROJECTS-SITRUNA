@@ -8,7 +8,9 @@ export interface ContentModule {
   type: 'iframe' | 'react-component';
   entryPoint: string;
   description?: string;
+  category?: string;
   component?: React.LazyExoticComponent<React.ComponentType<any>>;
+}
 
 export const contentModules: ContentModule[] = [
   {

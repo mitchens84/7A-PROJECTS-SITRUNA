@@ -269,7 +269,16 @@ function MyComponent() {
    ```bash
    npm run build
    ```
-2. Deploy the `dist/` folder to GitHub Pages, Netlify, or any static host.
+2. Deploy to GitHub Pages:
+   ```bash
+   npm run deploy
+   ```
+   This will run the predeploy script to update the content registry and then deploy the `dist/` folder to GitHub Pages.
+
+3. Access the deployed application at:
+   ```
+   https://[your-github-username].github.io/7A-PROJECTS-SITRUNA/
+   ```
 
 ## Troubleshooting
 

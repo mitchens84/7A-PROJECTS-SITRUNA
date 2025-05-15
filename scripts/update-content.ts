@@ -89,7 +89,9 @@ async function main() {
   lines.push("  type: 'iframe' | 'react-component';");
   lines.push("  entryPoint: string;");
   lines.push('  description?: string;');
+  lines.push('  category?: string;');
   lines.push('  component?: React.LazyExoticComponent<React.ComponentType<any>>;');
+  lines.push('}');
   lines.push('');
   lines.push('export const contentModules: ContentModule[] = [');
 
