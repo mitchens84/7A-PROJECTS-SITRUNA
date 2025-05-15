@@ -1,10 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'content/**/[!.]*', // Copies all files except dotfiles from content
+          dest: 'content'      // Destination in the dist folder
+        }
+      ]
+    })
+  ],
   base: process.env.NODE_ENV === 'production' ? '/7A-PROJECTS-SITRUNA/' : '/',
   // FIXED: Change public directory from 'content' to 'public'
   publicDir: 'public',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
-import { contentModules } from './content-registry';
+import { contentModulesConfig } from './content-registry';
 import ContentRenderer from './ContentRenderer';
 import { SimplePassCheck } from './components/SimplePassCheck';
 
@@ -31,12 +31,12 @@ const App: React.FC = () => {
   console.log("🔓 Authenticated, showing main content");
   // If authenticated, show the main application content
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="flex h-screen">
         <nav className="w-64 bg-gray-100 p-4 overflow-y-auto">
           <h1 className="text-xl font-bold mb-4">7A Projects</h1>
           <ul>
-            {contentModules.map((mod) => (
+            {contentModulesConfig.map((mod) => (
               <li key={mod.id} className="mb-2">
                 <Link
                   to={`/${mod.path}`}
@@ -50,7 +50,7 @@ const App: React.FC = () => {
         </nav>
         <main className="flex-1 overflow-auto">
           <Routes>
-            <Route path="/" element={<Navigate to={`/${contentModules[0]?.path || ''}`} replace />} />
+            <Route path="/" element={<Navigate to={`/${contentModulesConfig[0]?.path || ''}`} replace />} />
             <Route path="/:modulePath" element={<ContentRenderer />} />
             <Route path="*" element={<div className="p-4">Page not found.</div>} />
           </Routes>
