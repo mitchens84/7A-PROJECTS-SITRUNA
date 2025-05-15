@@ -200,8 +200,10 @@
         }
 
         .knowledge-item {
-            border: 1px solid #e5e7eb;
+            border: 1px solid #d1d5db;
+            /* Default main border, consistent for all items */
             border-left-width: 4px;
+            /* For category color */
             border-radius: 8px;
             padding: 16px;
             background-color: white;
@@ -225,26 +227,37 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            /* Pushes icons to the right */
         }
 
         .knowledge-item-title-content {
+            /* Wraps ID and Label */
             display: flex;
             align-items: center;
             flex-grow: 1;
+            /* Allows it to take available space */
+            margin-right: 8px;
+            /* Space before icons */
         }
 
         .knowledge-item-icons {
+            /* Container for privacy & structure icons */
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-left: 10px;
+            /* Space between icons */
+            flex-shrink: 0;
+            /* Prevent icons from shrinking */
         }
 
         .knowledge-item-icons svg {
             width: 16px;
+            /* Adjust size as needed */
             height: 16px;
             fill: #6b7280;
+            /* Default icon color */
         }
+
 
         .knowledge-item-id {
             font-size: 11px;
@@ -256,30 +269,25 @@
             font-weight: 500;
         }
 
-        .high-privacy {
-            border-color: #ef4444;
+        /* Content Type Borders (Main Border) */
+        .content-type-first-party {
+            border-color: #2563eb;
         }
 
-        .medium-privacy {
-            border-color: #f59e0b;
+        /* Blue */
+        .content-type-third-party {
+            border-color: #d97706;
         }
 
-        .low-privacy {
-            border-color: #22c55e;
+        /* Amber */
+        .content-type-client-owned {
+            border-color: #16a34a;
         }
 
-        .structured {
-            border-style: solid;
-        }
+        /* Green */
 
-        .semi-structured {
-            border-style: dashed;
-        }
 
-        .unstructured {
-            border-style: dotted;
-        }
-
+        /* Knowledge Category: Left border and background tint */
         .amazon-knowledge {
             border-left-color: #3b82f6;
             background-color: rgba(59, 130, 246, 0.03);
@@ -312,6 +320,7 @@
 
 
         .item-detail {
+            /* These are for the detailed view on the card, now mostly unused */
             display: flex;
             align-items: center;
             font-size: 13px;
@@ -339,15 +348,30 @@
             background-color: #e5e7eb;
             color: #374151;
             font-weight: 500;
+            display: inline-flex;
+            /* For icon alignment */
+            align-items: center;
+            /* For icon alignment */
+            gap: 4px;
+            /* Space between icon and text */
         }
 
-        .type-tag {
-            background-color: #dbeafe;
-            color: #1e40af;
+        .tag svg,
+        .detail-tag svg {
+            /* Style for icons in tags */
+            width: 12px;
+            height: 12px;
+            fill: currentColor;
+            /* Inherit color from parent tag text */
         }
+
+        /* .type-tag class is no longer used for card items, content type is border color */
+        /* .type-tag { background-color: #dbeafe; color: #1e40af; } */
+
 
         /* Simple View: Hide ALL details and tags */
         .knowledge-item.simple-view .item-detail,
+        /* Should be empty now */
         .knowledge-item.simple-view .tag-container {
             display: none;
         }
@@ -457,8 +481,18 @@
             font-weight: 500;
             color: #1f2937;
             display: flex;
+            /* For aligning icon with text */
             align-items: center;
             gap: 8px;
+            /* Space between icon and text */
+        }
+
+        .detail-item-content svg {
+            /* Style for icons in detail panel */
+            width: 16px;
+            height: 16px;
+            fill: #4b5563;
+            /* Or a suitable color */
         }
 
         .detail-tags {
@@ -476,6 +510,12 @@
             background-color: #e5e7eb;
             color: #374151;
             font-weight: 500;
+            display: inline-flex;
+            /* For icon alignment */
+            align-items: center;
+            /* For icon alignment */
+            gap: 6px;
+            /* Space between icon and text */
         }
 
         .overlay {
@@ -587,27 +627,28 @@
             font-size: 13px;
         }
 
-        .legend-color {
-            width: 16px;
+        .legend-color-swatch {
+            /* For category left border */
+            width: 4px;
+            /* Width of the left border */
             height: 16px;
             margin-right: 8px;
-            border-radius: 4px;
+            border-radius: 2px 0 0 2px;
+            /* Rounded only on the left, to mimic border */
             flex-shrink: 0;
         }
 
-        .legend-icon-svg svg {
-            /* Style for icons in legend */
+        .legend-icon-display svg {
+            /* For privacy/structure/content type icons in legend */
             width: 16px;
             height: 16px;
             margin-right: 8px;
             fill: #4b5563;
-            /* Or a suitable color */
         }
 
         .assumptions-content p {
             margin-bottom: 10px;
         }
-
 
         @media (max-width: 768px) {
             .sidebar {
@@ -653,8 +694,7 @@
         </button>
 
         <div id="sidebar" class="sidebar">
-            <h1 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #111827;">Knowledge Navigator
-            </h1>
+            <h1 style="font-size: 20px; font-weight: 600; margin-bottom: 16px; color: #111827;">Knowledge Navigator</h1>
 
             <input type="text" id="search-input" class="filter-search" placeholder="Search knowledge items...">
 
@@ -676,10 +716,9 @@
 
             <button id="reset-filters-btn" class="sidebar-button">Reset All</button>
 
+
             <div class="sidebar-section">
-                <div class="sidebar-section-header">
-                    <span>Filters</span>
-                </div>
+                <div class="sidebar-section-header"><span>Filters</span></div>
                 <div class="filter-group">
                     <label for="category-filter" class="filter-label">Knowledge Category</label>
                     <select id="category-filter" class="filter-select">
@@ -757,67 +796,48 @@
                     <div class="legend-group">
                         <h4 class="legend-title">Knowledge Categories (Left Border & Tint)</h4>
                         <div class="legend-item">
-                            <div class="legend-color"
-                                style="background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6;">
-                            </div>
-                            Amazon Knowledge
+                            <div class="legend-color-swatch" style="background-color: #3b82f6;"></div>Amazon Knowledge
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color"
-                                style="background-color: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7;">
-                            </div>
-                            Case Management
+                            <div class="legend-color-swatch" style="background-color: #a855f7;"></div>Case Management
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color"
-                                style="background-color: rgba(20, 184, 166, 0.1); border-left: 4px solid #14b8a6;">
-                            </div>
-                            Internal Operations
+                            <div class="legend-color-swatch" style="background-color: #14b8a6;"></div>Internal
+                            Operations
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color"
-                                style="background-color: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e;"></div>
-                            Client Information
+                            <div class="legend-color-swatch" style="background-color: #22c55e;"></div>Client Information
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color"
-                                style="background-color: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b;">
-                            </div>
-                            Team Communication
+                            <div class="legend-color-swatch" style="background-color: #f59e0b;"></div>Team Communication
                         </div>
                     </div>
                     <div class="legend-group">
-                        <h4 class="legend-title">Systems/Tools (Left Border & Tint - when grouped)</h4>
-                        <div class="legend-item">
-                            <div class="legend-color"
-                                style="background-color: rgba(107, 114, 128, 0.1); border-left: 4px solid #6b7280;">
-                            </div>
-                            Generic System/Tool
+                        <h4 class="legend-title">Content Type (Icon)</h4>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-content-first-party"></span>First-Party</div>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-content-third-party"></span>Third-Party</div>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-content-client-owned"></span>Client-Owned</div>
+                    </div>
+                    <div class="legend-group">
+                        <h4 class="legend-title">Privacy Level (Icon)</h4>
+                        <div class="legend-item"><span class="legend-icon-display" id="legend-privacy-high"></span>High
+                        </div>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-privacy-medium"></span>Medium</div>
+                        <div class="legend-item"><span class="legend-icon-display" id="legend-privacy-low"></span>Low
                         </div>
                     </div>
                     <div class="legend-group">
-                        <h4 class="legend-title">Privacy Level (Main Border Color)</h4>
-                        <div class="legend-item">
-                            <div class="legend-color" style="border: 2px solid #ef4444;"></div>High
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="border: 2px solid #f59e0b;"></div>Medium
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="border: 2px solid #22c55e;"></div>Low
-                        </div>
-                    </div>
-                    <div class="legend-group">
-                        <h4 class="legend-title">Data Structure (Main Border Style)</h4>
-                        <div class="legend-item">
-                            <div class="legend-color" style="border: 2px solid #6b7280;"></div>Structured
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="border: 2px dashed #6b7280;"></div>Semi-structured
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color" style="border: 2px dotted #6b7280;"></div>Unstructured
-                        </div>
+                        <h4 class="legend-title">Data Structure (Icon)</h4>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-structure-structured"></span>Structured</div>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-structure-semi"></span>Semi-structured</div>
+                        <div class="legend-item"><span class="legend-icon-display"
+                                id="legend-structure-unstructured"></span>Unstructured</div>
                     </div>
                 </div>
             </div>
@@ -849,8 +869,7 @@
         <div class="overlay" id="overlay"></div>
         <div class="detail-panel" id="detail-panel">
             <div class="detail-header">
-                <h2 id="detail-title">Item Details</h2>
-                <button class="close-button" id="close-detail">×</button>
+                <h2 id="detail-title">Item Details</h2><button class="close-button" id="close-detail">×</button>
             </div>
             <div id="detail-content"></div>
         </div>
@@ -881,6 +900,49 @@
 
         const categoryLabels = { 'AMAZON_KNOWLEDGE': 'Amazon Knowledge', 'CASE_MANAGEMENT': 'Case Management', 'INTERNAL_OPERATIONS': 'Internal Operations', 'CLIENT_INFORMATION': 'Client Information', 'TEAM_COMMUNICATION': 'Team Communication' };
         const systemLabels = { 'CLICKUP': 'ClickUp', 'GOOGLE_SITES': 'Google Sites', 'SLACK': 'Slack', 'GOOGLE_SHEETS': 'Google Sheets', 'FRONT': 'Front', 'GOOGLE_DRIVE': 'Google Drive', 'BIG_QUERY': 'Big Query', 'CHATGPT': 'ChatGPT', 'AMAZON_SC': 'Amazon Seller Central' };
+        // const contentTypeColors = { 'First-Party': '#2563eb', 'Third-Party': '#d97706', 'Client-Owned': '#16a34a', 'Default': '#d1d5db'};
+
+
+        // --- SVG Icons ---
+        const systemToolIcons = {
+            CLICKUP: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>', // Checkmark in circle
+            GOOGLE_SITES: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4H5C3.89 4 3 4.9 3 6v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H5V8h14v10zM5 7V6h14v1H5z"/></svg>', // Browser/Page icon
+            SLACK: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 15.5A1.5 1.5 0 0 1 5 14V9a1.5 1.5 0 0 1 3 0v2.5A1.5 1.5 0 0 1 6.5 13H9a1.5 1.5 0 0 1 0 3H6.5zm11-5A1.5 1.5 0 0 1 19 9v5a1.5 1.5 0 0 1-3 0v-2.5A1.5 1.5 0 0 1 17.5 10H15a1.5 1.5 0 0 1 0-3h2.5zM9 6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V9a1.5 1.5 0 0 1-3 0V6.5zm5 11a1.5 1.5 0 0 1-1.5 1.5h-3a1.5 1.5 0 0 1-1.5-1.5V15a1.5 1.5 0 0 1 3 0v2.5z"/></svg>', // Simplified Slack hash
+            GOOGLE_SHEETS: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 17H6v-2h5v2zm0-4H6v-2h5v2zm0-4H6V7h5v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>', // Grid (Kept)
+            FRONT: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>', // Envelope (Kept)
+            GOOGLE_DRIVE: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.71 3.5L1.02 15.21l2.83 4.93 6.69-11.72L7.71 3.5zm8.58 0l-2.83 4.93L16.29 15.21l6.69-11.71-2.83-4.93zm-2.83 16.64l-2.83-4.93-2.83 4.93h5.66z"/></svg>', // Drive logo (Kept)
+            BIG_QUERY: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.03 3 3 4.79 3 7v10c0 2.21 4.03 4 9 4s9-1.79 9-4V7c0-2.21-4.03-4-9-4zm0 2c3.86 0 7 1.34 7 3s-3.14 3-7 3-7-1.34-7-3 3.14-3 7-3zm0 14c-3.86 0-7-1.34-7-3v-1.55c1.18.65 2.98 1.05 5 1.05s3.82-.4 5-1.05V16c0 1.66-3.14 3-7 3z"/></svg>', // Database icon
+            CHATGPT: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.18 11.18c-.25.25-.53.43-.82.56-.29.12-.6.18-.9.18-.31 0-.61-.06-.9-.18-.29-.12-.57-.31-.82-.56l-1.4-1.4c-.25-.25-.53-.43-.82-.56-.29-.12-.6-.18-.9-.18s-.61.06-.9.18c-.29.12-.57.31-.82-.56L7 10.36V9.05l2.41 2.41c.25.25.53.44.82.57.29.12.6.19.9.19s.61-.07.9-.19c.29-.13.57-.32.82-.57L17 9.05v1.31l-2.18 2.82z"/></svg>', // Speech bubble (Kept)
+            AMAZON_SC: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.68 13.04c-.34.34-.78.53-1.25.53-.47 0-.91-.19-1.25-.53L10 11.88l-3.18 3.16c-.34.34-.78.53-1.25.53s-.91-.19-1.25-.53c-.68-.68-.68-1.8 0-2.48l4.42-4.42c.34-.34.78-.53 1.25-.53s.91.19 1.25.53l4.42 4.42c.69.68.69 1.8.01 2.48z"/></svg>' // Simplified Amazon arrow/smile (Kept)
+        };
+        const contentTypeIcons = {
+            'First-Party': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>', // Example: Info icon
+            'Third-Party': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>', // Example: Briefcase/external source icon
+            'Client-Owned': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>' // Example: User/client icon
+        };
+        const privacyIcons = {
+            High: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>', // Shield with check
+            Medium: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 4.52 3.03 8.47 7 9.92V12H5V6.3l7-3.11v3.31c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V3.19l7 3.11V11h-2v-1c0-.28-.22-.5-.5-.5s-.5.22-.5.5v1h-1.42c-.36-2.89-2.09-5.41-4.58-7.04zM12 20.92c-3.97-1.45-7-5.4-7-9.92V6.3l7-3.11v3.31c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5V3.19l1 .45V11c0 2.06-.93 3.94-2.42 5.21l-1.08 1.01c-.93.87-2.16 1.38-3.5 1.38s-2.57-.51-3.5-1.38l-1.08-1.01C10.43 14.94 9.5 13.06 9.5 11H7v.08c0 1.4.33 2.74.93 3.94l1.08 1.01c.93.87 2.16 1.38 3.5 1.38s2.57-.51 3.5-1.38l.5-.46c.2-.18.43-.34.67-.48v2.69c-.53.24-1.09.4-1.67.49z"/></svg>', // Simpler shield or lock variant
+            Low: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>' // Open lock
+        };
+        const structureIcons = {
+            Structured: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4zm0 4h16v2H4zm0 4h7v2H4zm0 4h7v2H4zm0 4h16v2H4zm9-8h7v2h-7zm0 4h7v2h-7z"/></svg>', // More like a structured table/list
+            'Semi-structured': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>', // Resembles a tree map or blocks
+            Unstructured: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>' // Document icon
+        };
+
+        function getContentTypeIconSVG(contentType) {
+            if (contentType && contentType.length > 0) { // Check if array and has elements
+                // Prioritize: Client-Owned > First-Party > Third-Party if multiple types exist
+                if (contentType.includes('Client-Owned')) return contentTypeIcons['Client-Owned'] || '';
+                if (contentType.includes('First-Party')) return contentTypeIcons['First-Party'] || '';
+                if (contentType.includes('Third-Party')) return contentTypeIcons['Third-Party'] || '';
+            }
+            return '';
+        }
+        function getPrivacyIconSVG(privacyLevel) { return privacyIcons[privacyLevel] || ''; }
+        function getStructureIconSVG(structureType) { return structureIcons[structureType] || ''; }
+
 
         const knowledgeMapEl = document.getElementById('knowledge-map');
         const detailPanelEl = document.getElementById('detail-panel');
@@ -912,8 +974,8 @@
         const structureFilter = document.getElementById('structure-filter');
         const aiFilter = document.getElementById('ai-filter');
 
-        let isSimpleView = true; // Default to simple view
-        let currentGrouping = 'category'; // Default grouping
+        let isSimpleView = true;
+        let currentGrouping = 'category';
 
         // --- Event Listeners ---
         simpleViewBtn.addEventListener('click', () => {
@@ -980,6 +1042,18 @@
         legendToggle.addEventListener('click', () => {
             legendContent.classList.toggle('expanded');
             legendIcon.classList.toggle('collapsed');
+            // Populate legend icons if expanded and not already populated
+            if (legendContent.classList.contains('expanded')) {
+                document.getElementById('legend-content-first-party').innerHTML = getContentTypeIconSVG(['First-Party']);
+                document.getElementById('legend-content-third-party').innerHTML = getContentTypeIconSVG(['Third-Party']);
+                document.getElementById('legend-content-client-owned').innerHTML = getContentTypeIconSVG(['Client-Owned']);
+                document.getElementById('legend-privacy-high').innerHTML = getPrivacyIconSVG('High');
+                document.getElementById('legend-privacy-medium').innerHTML = getPrivacyIconSVG('Medium');
+                document.getElementById('legend-privacy-low').innerHTML = getPrivacyIconSVG('Low');
+                document.getElementById('legend-structure-structured').innerHTML = getStructureIconSVG('Structured');
+                document.getElementById('legend-structure-semi').innerHTML = getStructureIconSVG('Semi-structured');
+                document.getElementById('legend-structure-unstructured').innerHTML = getStructureIconSVG('Unstructured');
+            }
         });
 
         assumptionsToggle.addEventListener('click', () => {
@@ -1002,6 +1076,16 @@
             return mapping[category] || 'system-group-item';
         }
 
+        // function getContentTypeClass(itemTypeArray) { // No longer used for main border color
+        //     // Prioritize: Client-Owned > First-Party > Third-Party if multiple types exist
+        //     if (!itemTypeArray || itemTypeArray.length === 0) return 'content-type-default';
+        //     if (itemTypeArray.includes('Client-Owned')) return 'content-type-client-owned';
+        //     if (itemTypeArray.includes('First-Party')) return 'content-type-first-party';
+        //     if (itemTypeArray.includes('Third-Party')) return 'content-type-third-party';
+        //     return 'content-type-default';
+        // }
+
+
         function getGroupDisplayIcon(groupKey, groupingType) {
             if (groupingType === 'category') return getCategoryIcon(groupKey);
             if (groupingType === 'system') return getSystemIcon(groupKey);
@@ -1020,8 +1104,9 @@
         }
 
         function getSystemIcon(system) {
-            const genericCogIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.13 16.63a2.34 2.34 0 0 0-3.29 0l-1.83 1.83a2.34 2.34 0 0 0 0 3.29l1.83 1.83a2.34 2.34 0 0 0 3.29 0l1.83-1.83a2.34 2.34 0 0 0 0-3.29Z"/><path d="m12 12-1.83 1.83a2.34 2.34 0 0 0 0 3.29l1.83 1.83a2.34 2.34 0 0 0 3.29 0l1.83-1.83a2.34 2.34 0 0 0 0-3.29Z"/><path d="M4.87 7.37a2.34 2.34 0 0 0-3.29 0L-.23 9.2a2.34 2.34 0 0 0 0 3.29l1.83 1.83a2.34 2.34 0 0 0 3.29 0l1.83-1.83a2.34 2.34 0 0 0 0-3.29Z"/></svg>';
-            return genericCogIcon;
+            // const genericCogIcon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.13 16.63a2.34 2.34 0 0 0-3.29 0l-1.83 1.83a2.34 2.34 0 0 0 0 3.29l1.83 1.83a2.34 2.34 0 0 0 3.29 0l1.83-1.83a2.34 2.34 0 0 0 0-3.29Z"/><path d="m12 12-1.83 1.83a2.34 2.34 0 0 0 0 3.29l1.83 1.83a2.34 2.34 0 0 0 3.29 0l1.83-1.83a2.34 2.34 0 0 0 0-3.29Z"/><path d="M4.87 7.37a2.34 2.34 0 0 0-3.29 0L-.23 9.2a2.34 2.34 0 0 0 0 3.29l1.83 1.83a2.34 2.34 0 0 0 3.29 0l1.83-1.83a2.34 2.34 0 0 0 0-3.29Z"/></svg>';
+            // return genericCogIcon;
+            return systemToolIcons[system] || '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle></svg>'; // Default icon if not found
         }
 
 
@@ -1042,12 +1127,12 @@
         function renderKnowledgeMap(itemsToRender) {
             knowledgeMapEl.innerHTML = '';
             const groupedItems = {};
-            let groupLabelMap, groupIconFunc, groupClassFunc;
+            let groupLabelMap, groupIconFunc, groupLeftBorderStyleFunc;
 
             if (currentGrouping === 'category') {
                 groupLabelMap = categoryLabels;
                 groupIconFunc = getCategoryIcon;
-                groupClassFunc = getCategoryClass;
+                groupLeftBorderStyleFunc = getCategoryClass; // For left border and tint
                 itemsToRender.forEach(item => {
                     const key = item.category;
                     if (!groupedItems[key]) groupedItems[key] = [];
@@ -1056,7 +1141,7 @@
             } else { // currentGrouping === 'system'
                 groupLabelMap = systemLabels;
                 groupIconFunc = getSystemIcon;
-                groupClassFunc = () => 'system-group-item';
+                groupLeftBorderStyleFunc = () => 'system-group-item';
                 itemsToRender.forEach(item => {
                     item.systems.forEach(systemKey => {
                         if (!groupedItems[systemKey]) groupedItems[systemKey] = [];
@@ -1070,7 +1155,7 @@
             const sortedGroupKeys = Object.keys(groupedItems).sort((a, b) => (groupLabelMap[a] || a).localeCompare(groupLabelMap[b] || b));
 
             for (const groupKey of sortedGroupKeys) {
-                const itemsInGroup = groupedItems[groupKey];
+                const itemsInGroup = groupedItems[groupKey]; // Defined per group
                 const groupSection = document.createElement('div');
                 groupSection.className = 'category-section';
 
@@ -1091,7 +1176,7 @@
                 const itemsContainer = document.createElement('div');
                 itemsContainer.className = 'items-container';
 
-                itemsInGroup.sort((a, b) => parseFloat(a.id) - parseFloat(b.id)).forEach(item => itemsContainer.appendChild(createKnowledgeItemElement(item, groupClassFunc(item.category)))); // Pass category class for coloring
+                itemsInGroup.sort((a, b) => parseFloat(a.id) - parseFloat(b.id)).forEach(item => itemsContainer.appendChild(createKnowledgeItemElement(item, groupLeftBorderStyleFunc(item.category))));
 
                 groupHeader.addEventListener('click', () => {
                     itemsContainer.classList.toggle('collapsed');
@@ -1111,59 +1196,38 @@
             }
         }
 
-        function createKnowledgeItemElement(item, itemSpecificClass) {
+        function createKnowledgeItemElement(item, categoryStyleClass) {
             const itemEl = document.createElement('div');
-            itemEl.className = `knowledge-item ${itemSpecificClass || getCategoryClass(item.category)}`;
+            // Apply category-specific class for left border/bg tint
+            // Main border is now default, content type is an icon
+            itemEl.className = `knowledge-item ${categoryStyleClass}`;
+
             if (isSimpleView) itemEl.classList.add('simple-view');
 
-            if (item.privacy === 'High') itemEl.classList.add('high-privacy');
-            else if (item.privacy === 'Medium') itemEl.classList.add('medium-privacy');
-            else if (item.privacy === 'Low') itemEl.classList.add('low-privacy');
-
-            if (item.structure === 'Structured') itemEl.classList.add('structured');
-            else if (item.structure === 'Semi-structured') itemEl.classList.add('semi-structured');
-            else if (item.structure === 'Unstructured') itemEl.classList.add('unstructured');
 
             const title = document.createElement('h3');
-            title.innerHTML = `<span class="knowledge-item-id">${item.id}</span>${item.label}`;
+
+            const titleContent = document.createElement('span');
+            titleContent.className = 'knowledge-item-title-content';
+            titleContent.innerHTML = `<span class="knowledge-item-id">${item.id}</span>${item.label}`;
+
+            const iconsContainer = document.createElement('span');
+            iconsContainer.className = 'knowledge-item-icons';
+            // Add Content Type icon along with Privacy and Structure icons
+            iconsContainer.innerHTML = getContentTypeIconSVG(item.type) + getPrivacyIconSVG(item.privacy) + getStructureIconSVG(item.structure);
+
+            title.appendChild(titleContent);
+            title.appendChild(iconsContainer);
             itemEl.appendChild(title);
-
-            // These details will be hidden by CSS if .simple-view is active on itemEl
-            const privacyDetail = document.createElement('div');
-            privacyDetail.className = 'item-detail';
-            privacyDetail.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Privacy: ${item.privacy}`;
-            itemEl.appendChild(privacyDetail);
-
-            const structureDetail = document.createElement('div');
-            structureDetail.className = 'item-detail';
-            structureDetail.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>Structure: ${item.structure}`;
-            itemEl.appendChild(structureDetail);
-
-            if (item.implementationNotes) {
-                const implementation = document.createElement('div');
-                implementation.className = 'item-detail';
-                implementation.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`;
-                const noteSnippet = item.implementationNotes.split(';')[0];
-                implementation.innerHTML += `Notes: ${noteSnippet.substring(0, 40)}${noteSnippet.length > 40 ? '...' : ''}`;
-                itemEl.appendChild(implementation);
-            }
 
             const tagContainer = document.createElement('div');
             tagContainer.className = 'tag-container';
             item.systems.forEach(system => {
                 const tag = document.createElement('span');
                 tag.className = 'tag';
-                tag.textContent = systemLabels[system] || system;
+                tag.innerHTML = (systemToolIcons[system] || '') + (systemLabels[system] || system); // Add icon
                 tagContainer.appendChild(tag);
             });
-            if (item.type && item.type.length > 0) {
-                item.type.forEach(type => {
-                    const tag = document.createElement('span');
-                    tag.className = 'tag type-tag';
-                    tag.textContent = type;
-                    tagContainer.appendChild(tag);
-                });
-            }
             itemEl.appendChild(tagContainer);
 
             itemEl.addEventListener('click', () => showItemDetails(item));
@@ -1174,55 +1238,69 @@
             detailTitleEl.textContent = `${item.id} - ${item.label}`;
             let content = `<div class="detail-grid">
                 <div class="detail-item"><div class="detail-item-title">Category</div><div class="detail-item-content">${categoryLabels[item.category] || item.category}</div></div>
-                <div class="detail-item"><div class="detail-item-title">Privacy Level</div><div class="detail-item-content">${item.privacy}</div></div>
-                <div class="detail-item"><div class="detail-item-title">Data Structure</div><div class="detail-item-content">${item.structure}</div></div>
+                <div class="detail-item"><div class="detail-item-title">Content Type</div><div class="detail-item-content">${getContentTypeIconSVG(item.type)} ${item.type ? item.type.join(', ') : 'N/A'}</div></div>
+                <div class="detail-item"><div class="detail-item-title">Privacy Level</div><div class="detail-item-content">${getPrivacyIconSVG(item.privacy)} ${item.privacy}</div></div>
+                <div class="detail-item"><div class="detail-item-title">Data Structure</div><div class="detail-item-content">${getStructureIconSVG(item.structure)} ${item.structure}</div></div>
                 <div class="detail-item"><div class="detail-item-title">Team</div><div class="detail-item-content">${item.team}</div></div>
             </div>`;
-            content += `<div class="section-title">Systems/Tools</div><div class="detail-tags">${item.systems.map(s => `<span class="detail-tag">${systemLabels[s] || s}</span>`).join('')}</div>`;
-            if (item.type && item.type.length) content += `<div class="section-title">Content Type</div><div class="detail-tags">${item.type.map(t => `<span class="detail-tag type-tag">${t}</span>`).join('')}</div>`;
-            if (item.details) content += `<div class="section-title">Details</div><div class="section-content">${item.details}</div>`;
-            if (item.implementationNotes) content += `<div class="section-title">Implementation Notes</div><div class="section-content">${item.implementationNotes}</div>`;
-            if (item.primaryUsers) content += `<div class="section-title">Primary Users</div><div class="section-content">${item.primaryUsers}</div>`;
-            if (item.aiIntegrationPriority) content += `<div class="section-title">AI Integration Workflow</div><div class="section-content" style="color: ${isHighAIPriority(item.aiIntegrationPriority) ? '#0369a1' : 'inherit'}; font-weight: ${isHighAIPriority(item.aiIntegrationPriority) ? '600' : 'normal'};">${item.aiIntegrationPriority}</div>`;
-            const challenges = extractChallenges(item);
-            content += `<div class="section-title">Potential Implementation Challenges</div><div class="section-content"><ul>${challenges.map(c => `<li>${c}</li>`).join('')}</ul></div>`;
+            // Display Content Type as text in the detail panel - already handled above with icon
+
+            content += `<div class="section-title">Systems/Tools</div><div class="detail-tags">${item.systems.map(s => `<span class="detail-tag">${(systemToolIcons[s] || '')} ${systemLabels[s] || s}</span>`).join('')}</div>`; // Add icon
+            if (item.implementationNotes) {
+                content += `<div class="section-title">Implementation Notes</div><div class="section-content">${item.implementationNotes}</div>`;
+            }
+            if (item.primaryUsers) {
+                content += `<div class="section-title">Primary Users</div><div class="section-content">${item.primaryUsers}</div>`;
+            }
+            if (item.aiIntegrationPriority) {
+                content += `<div class="section-title">AI Integration Priority</div><div class="section-content">${item.aiIntegrationPriority}</div>`;
+            }
+
             detailContentEl.innerHTML = content;
             detailPanelEl.style.display = 'block';
             overlayEl.style.display = 'block';
         }
 
-        function filterItems() {
-            const searchText = searchInput.value.toLowerCase();
-            const cat = categoryFilter.value; // Renamed to avoid conflict
-            const sys = systemFilter.value; // Renamed to avoid conflict
-            const typ = typeFilter.value; // Renamed to avoid conflict
-            const priv = privacyFilter.value; // Renamed to avoid conflict
-            const stru = structureFilter.value; // Renamed to avoid conflict
-            const ai = aiFilter.value;
 
-            const filtered = knowledgeItems.filter(item => {
-                const itemLabel = (item.label || '').toLowerCase();
-                const itemDetails = (item.details || '').toLowerCase();
-                const itemId = (item.id || '').toLowerCase();
-                if (searchText && !itemLabel.includes(searchText) && !itemDetails.includes(searchText) && !itemId.includes(searchText)) return false;
-                if (cat && item.category !== cat) return false;
-                if (sys && !item.systems.includes(sys)) return false;
-                if (typ && (!item.type || !item.type.includes(typ))) return false;
-                if (priv && item.privacy !== priv) return false;
-                if (stru && item.structure !== stru) return false;
-                if (ai) {
-                    const itemAIPriority = (item.aiIntegrationPriority || '').toLowerCase();
-                    if (ai === 'High' && !isHighAIPriority(item.aiIntegrationPriority)) return false;
-                    if (ai === 'Medium' && !(itemAIPriority.includes('medium') || (!itemAIPriority.includes('high') && !itemAIPriority.includes('low') && !isHighAIPriority(item.aiIntegrationPriority)))) return false;
-                    if (ai === 'Low' && !itemAIPriority.includes('low')) return false;
-                }
-                return true;
+        function filterItems() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedSystem = systemFilter.value;
+            const selectedType = typeFilter.value;
+            const selectedPrivacy = privacyFilter.value;
+            const selectedStructure = structureFilter.value;
+            const selectedAI = aiFilter.value;
+
+            const filteredItems = knowledgeItems.filter(item => {
+                const matchesSearch = item.label.toLowerCase().includes(searchTerm) || item.id.includes(searchTerm);
+                const matchesCategory = selectedCategory ? item.category === selectedCategory : true;
+                const matchesSystem = selectedSystem ? item.systems.includes(selectedSystem) : true;
+                const matchesType = selectedType ? item.type.includes(selectedType) : true;
+                const matchesPrivacy = selectedPrivacy ? item.privacy === selectedPrivacy : true;
+                const matchesStructure = selectedStructure ? item.structure === selectedStructure : true;
+                const matchesAI = selectedAI ? isHighAIPriority(item.aiIntegrationPriority) : true;
+
+                return matchesSearch && matchesCategory && matchesSystem && matchesType && matchesPrivacy && matchesStructure && matchesAI;
             });
-            renderKnowledgeMap(filtered);
+
+            renderKnowledgeMap(filteredItems);
         }
 
-        // Initial Render
+        // Initial render
         renderKnowledgeMap(knowledgeItems);
+
+        // Populate legend icons on initial load if legend is set to be initially expanded
+        if (legendContent.classList.contains('expanded')) {
+            document.getElementById('legend-content-first-party').innerHTML = getContentTypeIconSVG(['First-Party']);
+            document.getElementById('legend-content-third-party').innerHTML = getContentTypeIconSVG(['Third-Party']);
+            document.getElementById('legend-content-client-owned').innerHTML = getContentTypeIconSVG(['Client-Owned']);
+            document.getElementById('legend-privacy-high').innerHTML = getPrivacyIconSVG('High');
+            document.getElementById('legend-privacy-medium').innerHTML = getPrivacyIconSVG('Medium');
+            document.getElementById('legend-privacy-low').innerHTML = getPrivacyIconSVG('Low');
+            document.getElementById('legend-structure-structured').innerHTML = getStructureIconSVG('Structured');
+            document.getElementById('legend-structure-semi').innerHTML = getStructureIconSVG('Semi-structured');
+            document.getElementById('legend-structure-unstructured').innerHTML = getStructureIconSVG('Unstructured');
+        }
     </script>
 </body>
 

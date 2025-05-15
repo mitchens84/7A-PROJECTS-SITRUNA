@@ -69,6 +69,6 @@ export const getReactComponent = (entryPoint: string): React.LazyExoticComponent
 export const getIframeSrc = (moduleConfig: ModuleConfig): string => {
   // entryPoint is already relative to content dir, e.g., 'my-module/index.html'
   // Clean up any ./ patterns in the entryPoint
-  const cleanPath = moduleConfig.entryPoint.replace(/\.\/g, '');
+  const cleanPath = moduleConfig.entryPoint.replace(/\.\//g, '');
   return `${import.meta.env.BASE_URL}content/${cleanPath}`;
 };

@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
-import { contentModules } from './content-registry';
+import { contentModulesConfig as contentModules } from './content-registry';
 import ContentRenderer from './ContentRenderer';
 import LoginPage from './LoginPage'; // Import the LoginPage component
 const App = () => {

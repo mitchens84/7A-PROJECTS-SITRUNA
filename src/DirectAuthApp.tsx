@@ -1,8 +1,8 @@
 // This is a completely standalone auth solution with no dependencies on other components
 
-import React, { useState, useEffect } from 'react'; // Make sure useState is imported
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'; // Add useLocation
-import { contentModules } from './content-registry';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { contentModulesConfig as contentModules } from './content-registry';
 import ContentRenderer from './ContentRenderer';
 import { CollapsibleTOC } from './components/CollapsibleTOC';
 
