@@ -29,19 +29,18 @@ const DirectAuthApp: React.FC = () => {
     setIsAuthenticated(false);
   };
 
-  // This is the login component defined inline to avoid any import issues
-  const LoginView = () => {
+  const LoginView: React.FC<{ onLoginSuccess: () => void }> = ({ onLoginSuccess }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleLogin = (e: React.FormEvent) => {
-      e.preventDefault();
+    const handleSubmit = (event: React.FormEvent) => {
+      event.preventDefault();
       console.log("🔥 Login attempt with:", password);
-      
-      if (password === 'password123') {
+
+      if (password === "password123") {
         console.log("🔥 Login successful");
         localStorage.setItem('isAuthenticated', 'true');
-        setIsAuthenticated(true);
+        onLoginSuccess();
       } else {
         console.log("🔥 Login failed");
         setError('Incorrect password');
@@ -50,21 +49,20 @@ const DirectAuthApp: React.FC = () => {
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-96 max-w-full">
-          <h2 className="text-2xl font-bold mb-6 text-center">7A Projects Login</h2>
-          {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-          <form onSubmit={handleLogin}>
+        <div className="bg-white p-8 rounded-lg shadow-md w-96">
+          <h2 className="text-2xl font-bold mb-6">Enter Password</h2>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <form onSubmit={handleSubmit}>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               className="w-full border border-gray-300 rounded p-2 mb-4"
               placeholder="Password"
-              autoFocus
             />
             <button 
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
             >
               Login
             </button>
@@ -74,50 +72,50 @@ const DirectAuthApp: React.FC = () => {
     );
   };
 
-  // If not authenticated, show the inline login component
-  if (!isAuthenticated) {
-    console.log("🔥 Not authenticated, showing login");
-    return <LoginView />;
-  }
-
-  // If authenticated, show the main application
-  console.log("🔥 Authenticated, showing main content");
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <div className="h-screen bg-gray-50">
-        {/* Logout Button - moved to the left side to avoid TOC clash */}
-        <div className="fixed top-4 left-4 z-50">
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition-colors flex items-center"
-            aria-label="Logout"
-          >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-4 w-4 mr-1" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            Logout
-          </button>
-        </div>
-        
-        {/* New Collapsible TOC */}
-        <CollapsibleTOC />
-        
-        {/* Main Content Area */}
-        <main className="w-full h-full p-4 overflow-auto">
-          <div className="max-w-6xl mx-auto">
-            <Routes>
-              <Route path="/" element={<Navigate to={`/${contentModules[0]?.path || ''}`} replace />} />
-              <Route path="/:modulePath" element={<ContentRenderer />} />
-              <Route path="*" element={<div className="p-4">Page not found.</div>} />
-            </Routes>
-          </div>
-        </main>
+      <div className="min-h-screen bg-gray-100">
+        {isAuthenticated ? (
+          <>
+            {/* FIXED: Only render header with logout button once */}
+            <header className="bg-white shadow-sm p-4 flex justify-between items-center">
+              <h1 className="text-xl font-semibold">Sitruna</h1>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm"
+                aria-label="Logout"
+              >
+                Logout
+              </button>
+            </header>
+            
+            <div className="container mx-auto p-4 relative">
+              {/* Main content area */}
+              <Routes>
+                {contentModules.map((module) => (
+                  <Route
+                    key={module.id}
+                    path={module.path}
+                    element={<ContentRenderer module={module} />}
+                  />
+                ))}
+                <Route
+                  path="/"
+                  element={<Navigate to={contentModules[0]?.path || "/"} replace />}
+                />
+              </Routes>
+              
+              {/* FIXED: Only include the CollapsibleTOC once, positioned in upper right */}
+              <div className="fixed top-20 right-4 z-50">
+                <CollapsibleTOC />
+              </div>
+            </div>
+          </>
+        ) : (
+          <LoginView
+            onLoginSuccess={() => setIsAuthenticated(true)}
+          />
+        )}
       </div>
     </BrowserRouter>
   );

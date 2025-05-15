@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   base: process.env.NODE_ENV === 'production' ? '/7A-PROJECTS-SITRUNA/' : '/',
-  // Only serve the 'public' directory as static assets, not the entire content folder
+  // FIXED: Change public directory from 'content' to 'public'
   publicDir: 'public',
   server: { port: 3000 },
   resolve: {
@@ -25,6 +25,6 @@ export default defineConfig({
     },
     // Skip TypeScript checking for faster builds
     minify: true,
-    sourcemap: false,
+    sourcemap: true, // Enable for better debugging
   }
 });

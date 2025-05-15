@@ -10,7 +10,7 @@
     "serve": "vite preview",
     "update-content": "ts-node --esm scripts/update-content.ts",
     "static": "node static-server.js",
-    "deploy": "npm run update-content && npm run build && touch dist/.nojekyll && gh-pages -d dist",
+    "deploy": "npm run update-content && npm run build && cp -R content/* dist/ && touch dist/.nojekyll && gh-pages -d dist",
     "predeploy": "echo 'Running predeploy script'"
   },
   "repository": {
