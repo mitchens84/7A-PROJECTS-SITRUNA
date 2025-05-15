@@ -20,7 +20,7 @@ console.log("🚀 Environment:", {
 });
 
 // Add version info to help detect when the bundle actually updates
-console.log("🚀 App version: 2025-05-15-v5 - GITHUB PAGES FIX");
+console.log("🚀 App version: 2025-05-15-v6 - GITHUB PAGES FIX WITH SPA ROUTING");
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

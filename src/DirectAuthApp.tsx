@@ -124,7 +124,24 @@ const DirectAuthApp: React.FC = () => {
                 
                 {/* Fallback for any unmatched routes AFTER specific module routes and the root redirect */}
                 {/* This will render if the URL doesn't match any module.path or "/" */}
-                <Route path="*" element={<div className="p-4 text-center">Module not found for the current URL.</div>} />
+                <Route path="*" element={
+                  <div className="p-4 text-center">
+                    <h2 className="text-2xl font-bold mb-4">Module Not Found</h2>
+                    <p className="mb-4">The requested content module could not be found at this URL.</p>
+                    <p className="text-gray-600">Current path: {currentPathForDebug}</p>
+                    <div className="mt-6">
+                      <button 
+                        onClick={() => window.location.href = import.meta.env.BASE_URL}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                      >
+                        Return to Homepage
+                      </button>
+                    </div>
+                  </div>
+                } />
+
+                {/* Catch-all route for undefined paths */}
+                <Route path="/*" element={<div className="p-4 text-center">404 - Not Found</div>} />
               </Routes>
               
               <div className="fixed top-20 right-4 z-50">
