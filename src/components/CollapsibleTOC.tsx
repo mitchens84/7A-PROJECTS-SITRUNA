@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { contentModulesConfig as contentModules } from '../content-registry.ts';
+import { contentModulesConfig as contentModules } from '../content-registry';
 import { CategoryGroups } from './CategoryGroups';
 
 export const CollapsibleTOC: React.FC = () => {

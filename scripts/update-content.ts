@@ -179,7 +179,7 @@ async function main() {
   registryLines.push('export const getIframeSrc = (moduleConfig: ModuleConfig): string => {');
   registryLines.push("  // entryPoint is already relative to content dir, e.g., 'my-module/index.html'");
   registryLines.push("  // Clean up any ./ patterns in the entryPoint");
-  registryLines.push("  const cleanPath = moduleConfig.entryPoint.replace(/\\.\\/g, '');");
+  registryLines.push("  const cleanPath = moduleConfig.entryPoint.replace(/\\.\\\//g, '');");
   registryLines.push("  return `${import.meta.env.BASE_URL}content/${cleanPath}`;");
   registryLines.push('};');
 
