@@ -224,6 +224,26 @@
             color: #111827;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .knowledge-item-title-content {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .knowledge-item-icons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-left: 10px;
+        }
+
+        .knowledge-item-icons svg {
+            width: 16px;
+            height: 16px;
+            fill: #6b7280;
         }
 
         .knowledge-item-id {
@@ -436,6 +456,9 @@
             font-size: 15px;
             font-weight: 500;
             color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .detail-tags {
@@ -570,6 +593,15 @@
             margin-right: 8px;
             border-radius: 4px;
             flex-shrink: 0;
+        }
+
+        .legend-icon-svg svg {
+            /* Style for icons in legend */
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: #4b5563;
+            /* Or a suitable color */
         }
 
         .assumptions-content p {

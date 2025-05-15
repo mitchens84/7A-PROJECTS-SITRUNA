@@ -123,10 +123,18 @@ async function main() {
     // If mod.entryPoint is './Component.tsx' and it's in 'my-module', it becomes 'my-module/Component.tsx'
     // If it's a standalone config, entryPoint might be 'MyStandaloneComponent.tsx'
     const isStandaloneModule = (mod as any).isStandalone === true;
-    const entry = mod.entryPoint.replace(/^\\.\\\//, ''); // remove leading ./ if present
+    const entry = mod.entryPoint.replace(/^\.\//, ''); // remove leading ./ if present
     const finalEntryPoint = isStandaloneModule ? entry : `${mod.id}/${entry}`;
-    registryLines.push(`    entryPoint: "${finalEntryPoint}",`);
-    console.log(`[update-content] Processing module: ${mod.id}, type: ${mod.type}, entryPoint: ${finalEntryPoint}`); // Moved log here
+    const cleanedEntryPoint = finalEntryPoint.replace(/\.\//g, ''); // Clean up any ./ patterns in the entryPoint
+    
+    // For the duplicate proposal/proposal.tsx case, make one of them unique in the config
+    let moduleEntryPoint = cleanedEntryPoint;
+    if (mod.id === 'proposal-v2' && cleanedEntryPoint === 'proposal/proposal.tsx') {
+      moduleEntryPoint = 'proposal-v2/' + cleanedEntryPoint;
+    }
+    
+    registryLines.push(`    entryPoint: "${moduleEntryPoint}",`);
+    console.log(`[update-content] Processing module: ${mod.id}, type: ${mod.type}, entryPoint: ${moduleEntryPoint}`); // Moved log here
     if (mod.description) registryLines.push(`    description: "${mod.description.replace(/"/g, '\\"')}",`);
     if (mod.category) registryLines.push(`    category: "${mod.category}",`);
     registryLines.push('  },');
@@ -141,12 +149,22 @@ async function main() {
   for (const mod of modules) {
     if (mod.type === 'react-component') {
       const isStandaloneModule = (mod as any).isStandalone === true;
-      const entry = mod.entryPoint.replace(/^\\.\\\//, '');
+      const entry = mod.entryPoint.replace(/^\.\//, ''); // Remove leading ./ better
       const finalEntryPoint = isStandaloneModule ? entry : `${mod.id}/${entry}`; // Used consistent finalEntryPoint for key
       const finalEntryPointForImport = isStandaloneModule ? entry : `${mod.id}/${entry}`;
-      const importPath = `@content/${finalEntryPointForImport.replace(/\\.(tsx|ts|jsx|js)$/, '')}`;
-      registryLines.push(`  "${finalEntryPoint}": React.lazy(() => import("${importPath}")),`);
-      console.log(`[update-content]   React component: ${mod.id} (key: ${finalEntryPoint}), import path: ${importPath}`);
+      // Clean up path for import - remove any ./ patterns
+      const cleanedEntryPoint = finalEntryPointForImport.replace(/\.\//g, '');
+      
+      // Ensure unique keys for components with the same file path
+      let componentKey = cleanedEntryPoint;
+      // For the duplicate proposal/proposal.tsx case, make one of them unique
+      if (mod.id === 'proposal-v2' && cleanedEntryPoint === 'proposal/proposal.tsx') {
+        componentKey = 'proposal-v2/' + cleanedEntryPoint;
+      }
+      
+      const importPath = `../content/${cleanedEntryPoint.replace(/\.(tsx|ts|jsx|js)$/, '')}`;
+      registryLines.push(`  "${componentKey}": React.lazy(() => import("${importPath}")),`);
+      console.log(`[update-content]   React component: ${mod.id} (key: ${componentKey}), import path: ${importPath}`);
     }
   }
   registryLines.push('};');
@@ -160,7 +178,9 @@ async function main() {
   registryLines.push('');
   registryLines.push('export const getIframeSrc = (moduleConfig: ModuleConfig): string => {');
   registryLines.push("  // entryPoint is already relative to content dir, e.g., 'my-module/index.html'");
-  registryLines.push("  return `${import.meta.env.BASE_URL}content/${moduleConfig.entryPoint}`;");
+  registryLines.push("  // Clean up any ./ patterns in the entryPoint");
+  registryLines.push("  const cleanPath = moduleConfig.entryPoint.replace(/\\.\\/g, '');");
+  registryLines.push("  return `${import.meta.env.BASE_URL}content/${cleanPath}`;");
   registryLines.push('};');
 
   const output = registryLines.join('\n');

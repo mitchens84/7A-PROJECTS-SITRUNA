@@ -19,7 +19,7 @@ export const contentModulesConfig: ModuleConfig[] = [
     title: "AI Workflow Proposal",
     path: "proposal",
     type: "react-component",
-    entryPoint: "proposal/./proposal.tsx",
+    entryPoint: "proposal/proposal.tsx",
     description: "AI Workflow Proposal for Business Applications",
     category: "Business",
   },
@@ -28,7 +28,7 @@ export const contentModulesConfig: ModuleConfig[] = [
     title: "Simple HTML Example",
     path: "simple-example",
     type: "iframe",
-    entryPoint: "simple-example/./index.html",
+    entryPoint: "simple-example/index.html",
     description: "A basic HTML page rendered in an iframe.",
   },
   {
@@ -36,7 +36,7 @@ export const contentModulesConfig: ModuleConfig[] = [
     title: "Sitruna Knowledge Map",
     path: "knowledge-map",
     type: "react-component",
-    entryPoint: "./250514-SITRUNA-KNOWLEDGE-MAP-FIXED.tsx",
+    entryPoint: "250514-SITRUNA-KNOWLEDGE-MAP-FIXED.tsx",
     description: "Knowledge management system visualization and navigation",
     category: "Knowledge Management",
   },
@@ -45,7 +45,7 @@ export const contentModulesConfig: ModuleConfig[] = [
     title: "AI Workflow Proposal (V2)",
     path: "proposal-v2",
     type: "react-component",
-    entryPoint: "./proposal/proposal.tsx",
+    entryPoint: "proposal-v2/proposal/proposal.tsx",
     description: "Enhanced AI Workflow Proposal for Business Applications",
     category: "Business",
   },
@@ -55,9 +55,9 @@ export const contentModulesConfig: ModuleConfig[] = [
 // Key: moduleConfig.entryPoint for react-component types
 // Value: React.LazyExoticComponent
 export const moduleComponents: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
-  "proposal/./proposal.tsx": React.lazy(() => import("@content/proposal/./proposal.tsx")),
-  "./250514-SITRUNA-KNOWLEDGE-MAP-FIXED.tsx": React.lazy(() => import("@content/./250514-SITRUNA-KNOWLEDGE-MAP-FIXED.tsx")),
-  "./proposal/proposal.tsx": React.lazy(() => import("@content/./proposal/proposal.tsx")),
+  "proposal/proposal.tsx": React.lazy(() => import("../content/proposal/proposal")),
+  "250514-SITRUNA-KNOWLEDGE-MAP-FIXED.tsx": React.lazy(() => import("../content/250514-SITRUNA-KNOWLEDGE-MAP-FIXED")),
+  "proposal-v2/proposal/proposal.tsx": React.lazy(() => import("../content/proposal/proposal")),
 };
 
 export const getModuleByPath = (urlPath: string): ModuleConfig | undefined =>
@@ -68,5 +68,7 @@ export const getReactComponent = (entryPoint: string): React.LazyExoticComponent
 
 export const getIframeSrc = (moduleConfig: ModuleConfig): string => {
   // entryPoint is already relative to content dir, e.g., 'my-module/index.html'
-  return `${import.meta.env.BASE_URL}content/${moduleConfig.entryPoint}`;
+  // Clean up any ./ patterns in the entryPoint
+  const cleanPath = moduleConfig.entryPoint.replace(/\.\/g, '');
+  return `${import.meta.env.BASE_URL}content/${cleanPath}`;
 };
