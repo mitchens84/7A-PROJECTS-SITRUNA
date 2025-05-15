@@ -83,7 +83,7 @@ const DirectAuthApp: React.FC = () => {
   // If authenticated, show the main application
   console.log("🔥 Authenticated, showing main content");
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="h-screen bg-gray-50">
         {/* Logout Button - moved to the left side to avoid TOC clash */}
         <div className="fixed top-4 left-4 z-50">

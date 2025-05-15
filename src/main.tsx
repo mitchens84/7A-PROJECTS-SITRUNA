@@ -11,8 +11,16 @@ import { runDiagnostics } from './diagnostics';
 const diagnosticResults = runDiagnostics();
 console.log("🚀 Diagnostic results:", diagnosticResults);
 
+// Log environment information
+console.log("🚀 Environment:", {
+  BASE_URL: import.meta.env.BASE_URL,
+  DEV: import.meta.env.DEV,
+  PROD: import.meta.env.PROD,
+  MODE: import.meta.env.MODE
+});
+
 // Add version info to help detect when the bundle actually updates
-console.log("🚀 App version: 2025-05-15-v3 - COMPLETE BYPASS");
+console.log("🚀 App version: 2025-05-15-v5 - GITHUB PAGES FIX");
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

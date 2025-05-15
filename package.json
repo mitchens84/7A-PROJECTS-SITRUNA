@@ -6,12 +6,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --mode production",
     "serve": "vite preview",
     "update-content": "ts-node --esm scripts/update-content.ts",
     "static": "node static-server.js",
-    "deploy": "npm run build && gh-pages -d dist",
-    "predeploy": "npm run update-content"
+    "deploy": "npm run update-content && npm run build && touch dist/.nojekyll && gh-pages -d dist",
+    "predeploy": "echo 'Running predeploy script'"
   },
   "repository": {
     "type": "git",
