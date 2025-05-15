@@ -1,0 +1,49 @@
+{
+  "name": "7a-projects-sitruna",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A modular React-based application for dynamic content integration through declarative module configuration.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "update-content": "ts-node --esm scripts/update-content.ts",
+    "static": "node static-server.js",
+    "deploy": "npm run build && gh-pages -d dist",
+    "predeploy": "npm run update-content"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mitchens84/7A-PROJECTS-SITRUNA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mitchens84/7A-PROJECTS-SITRUNA/issues"
+  },
+  "homepage": "https://github.com/mitchens84/7A-PROJECTS-SITRUNA#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.6",
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "lucide-react": "^0.510.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.0",
+    "tailwindcss": "^3.3.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.21",
+    "gh-pages": "^6.3.0",
+    "postcss": "^8.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}

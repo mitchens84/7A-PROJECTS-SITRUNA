@@ -1,0 +1,12 @@
+[
+  {
+    "id": "simple-example",
+    "title": "Simple Example",
+    "path": "content/simple-example/index.html"
+  },
+  {
+    "id": "ai-proposal",
+    "title": "AI Workflow Proposal",
+    "path": "content/proposal/dist/index.html"
+  }
+]
