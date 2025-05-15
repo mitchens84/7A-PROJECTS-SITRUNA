@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Proposal Content</title>
+  <style>
+    body { 
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+      max-width: 800px; 
+      margin: 0 auto; 
+      padding: 2rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      color: #2563EB;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 0.5rem;
+    }
+    p {
+      margin-bottom: 1rem;
+    }
+    .info-box {
+      background-color: #f0f9ff;
+      border: 1px solid #93c5fd;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1.5rem 0;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 1.2em;
+      display: inline-block;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Proposal Content</h1>
+  
+  <p>This is the proposal content that was generated as a fallback for the SITRUNA application.</p>
+  
+  <div class="info-box">
+    <strong>Debug Information:</strong>
+    <ul>
+      <li>If you're seeing this, the content loading system is working correctly!</li>
+      <li>This fallback page was added to fix GitHub Pages loading issues</li>
+      <li>Date: May 15, 2025</li>
+      <li>Path: /proposal</li>
+    </ul>
+  </div>
+  
+  <p>The actual proposal content should be created and placed in this location. This is just a placeholder to ensure the application can find and load content at this path.</p>
+  
+  <script>
+    // Add some debug information to the console
+    console.log("[Proposal Fallback] Page loaded at: " + new Date().toISOString());
+    console.log("[Proposal Fallback] Current URL: " + window.location.href);
+    
+    // Add page load timestamp
+    document.addEventListener('DOMContentLoaded', function() {
+      const timestampElement = document.createElement('p');
+      timestampElement.textContent = 'Page loaded at: ' + new Date().toLocaleString();
+      document.body.appendChild(timestampElement);
+    });
+  </script>
+</body>
+</html>
