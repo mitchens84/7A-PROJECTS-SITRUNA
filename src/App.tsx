@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Link, useLocation, useParams } from 'react-router-dom';
 import { contentModulesConfig } from './content-registry';
 import ContentRenderer from './ContentRenderer';
 import { SimplePassCheck } from './components/SimplePassCheck';
+import DebugPanel from './components/DebugPanel';
+
+// Helper component to capture current path for debugging
+const RouteWithDebug: React.FC = () => {
+  const { modulePath } = useParams<{ modulePath: string }>();
+  return (
+    <>
+      <ContentRenderer />
+      <DebugPanel currentPath={modulePath} />
+    </>
+  );
+};
 
 const App: React.FC = () => {
   console.log("🔄 App component rendering:", new Date().toISOString());
@@ -51,7 +63,7 @@ const App: React.FC = () => {
         <main className="flex-1 overflow-auto">
           <Routes>
             <Route path="/" element={<Navigate to={`/${contentModulesConfig[0]?.path || ''}`} replace />} />
-            <Route path="/:modulePath" element={<ContentRenderer />} />
+            <Route path="/:modulePath" element={<RouteWithDebug />} />
             <Route path="*" element={<div className="p-4">Page not found.</div>} />
           </Routes>
         </main>

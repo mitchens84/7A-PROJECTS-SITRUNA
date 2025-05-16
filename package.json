@@ -8,7 +8,7 @@
     "dev": "vite",
     "copy-content": "node --no-warnings=ExperimentalWarning scripts/copy_to_public.js",
     "build": "npm run copy-content && vite build --mode production --base=./",
-    "postbuild": "node --no-warnings=ExperimentalWarning scripts/prepare_deploy.js && node --no-warnings=ExperimentalWarning scripts/fix-github-pages.js",
+    "postbuild": "node --no-warnings=ExperimentalWarning scripts/prepare_deploy.js && node --no-warnings=ExperimentalWarning scripts/fix-github-pages.js && node --no-warnings=ExperimentalWarning scripts/github-pages-setup.js",
     "serve": "vite preview",
     "update-content": "ts-node --esm scripts/update-content.ts",
     "static": "node static-server.js",
