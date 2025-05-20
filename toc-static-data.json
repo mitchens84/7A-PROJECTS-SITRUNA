@@ -1,0 +1,23 @@
+{
+  "title": "Static Content (EXPRESS)",
+  "id": "static-content-express",
+  "children": [
+    {
+      "title": "Example Static Page 1",
+      "path": "/EXPRESS/example-static-site/index.html",
+      "id": "static-example-1"
+    },
+    {
+      "title": "Another Static Page",
+      "path": "/EXPRESS/another-static-page/index.html",
+      "id": "static-example-2"
+    }
+    // Add more static pages here as they are created in the EXPRESS folder
+    // Ensure the path is relative to the public root of the deployment
+    // For GitHub Pages, if base is /PAGES/7A-PROJECTS-SITRUNA/,
+    // and your static file is in /7A-PROJECTS-SITRUNA/EXPRESS/example-static-site/index.html
+    // the path here should be "EXPRESS/example-static-site/index.html" (if VITE_APP_BASE_URL handles the prefix)
+    // or the full path from the domain root if VITE_APP_BASE_URL is not used for static links.
+    // Given CollapsibleTOC.tsx logic, it seems to prepend VITE_APP_BASE_URL for static links if it's not already part of the path.
+  ]
+}
