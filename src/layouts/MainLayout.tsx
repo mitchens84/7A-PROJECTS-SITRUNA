@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import CollapsibleTOC from '../components/CollapsibleTOC/CollapsibleTOC';
+import Search from '../components/Search/Search';
 import '../assets/styles.css'; // Ensure styles are imported
 
 const MainLayout: React.FC = () => {
@@ -20,6 +21,12 @@ const MainLayout: React.FC = () => {
     if (savedState !== null) {
       setSidebarCollapsed(savedState === 'true');
     }
+
+    // Restore theme if one was saved
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.body.setAttribute('data-theme', savedTheme);
+    }
   }, []);
 
   return (
@@ -35,6 +42,7 @@ const MainLayout: React.FC = () => {
       
       {/* Table of Contents with collapsed class when needed */}
       <div className={`toc-container ${sidebarCollapsed ? 'collapsed' : ''}`}>
+        <Search />
         <CollapsibleTOC />
       </div>
       
