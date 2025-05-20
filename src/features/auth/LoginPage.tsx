@@ -24,8 +24,31 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <form onSubmit={handleSubmit} className="login-form" style={{ padding: '2rem', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', backgroundColor: 'white', width: '100%', maxWidth: '400px' }}>
+    <div 
+      className="login-container" 
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        width: '100vw', // Ensure it takes full viewport width
+        padding: '20px' // Add some padding for smaller screens
+      }}
+    >
+      <form 
+        onSubmit={handleSubmit} 
+        className="login-form" 
+        style={{
+          padding: '2rem',
+          borderRadius: '8px',
+          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+          backgroundColor: 'white',
+          width: '100%',
+          maxWidth: '400px',
+          boxSizing: 'border-box' // Ensure padding doesn't make it wider than maxWidth
+        }}
+      >
         <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Login</h2>
         <div className="form-group">
           <label htmlFor="password">Password:</label>
