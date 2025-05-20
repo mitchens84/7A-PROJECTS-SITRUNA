@@ -6,7 +6,7 @@ const expressDir = path.join(process.cwd(), 'EXPRESS');
 const outputFilePath = path.join(process.cwd(), 'src', 'toc-static-data.json');
 // Read base from vite.config.js or set a default
 // This is a simplified approach. A more robust solution might involve parsing vite.config.js
-const viteConfigPath = path.join(process.cwd(), 'vite.config.js');
+const viteConfigPath = path.join(process.cwd(), 'vite.config.ts'); // Changed to .ts
 let baseHref = '/PAGES/7A-PROJECTS-SITRUNA/'; // Default
 
 async function getBaseHref() {
