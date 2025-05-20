@@ -8,13 +8,9 @@ import LoginPage from './features/auth/LoginPage'
 import AIWorkflowProposalPage from './features/career/proposal' // Corrected import
 import './assets/styles.css' // Assuming global styles are here
 
-// Dynamically set the base URL
-// For development, Vite's `base` config is the source of truth.
-// For production, `VITE_APP_BASE_URL` set during build (e.g., in .env.production or CI) takes precedence.
-const configuredBase = import.meta.env.BASE_URL; // This comes from vite.config.js base
-const productionBase = import.meta.env.VITE_APP_BASE_URL;
-const baseName = productionBase && productionBase !== '/' ? productionBase : configuredBase;
-
+// Dynamically set the base URL using Vite's `base` config.
+// Fallback to '/' if somehow undefined, though `base` in vite.config.ts should provide it.
+const baseName = import.meta.env.BASE_URL || '/';
 
 const App: React.FC = () => {
   return (

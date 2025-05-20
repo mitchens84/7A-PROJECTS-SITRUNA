@@ -24,10 +24,9 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Login</h2>
-        <p>This is a client-side only authentication for Tier 1 access.</p>
+    <div className="login-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+      <form onSubmit={handleSubmit} className="login-form" style={{ padding: '2rem', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', backgroundColor: 'white', width: '100%', maxWidth: '400px' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>Login</h2>
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
