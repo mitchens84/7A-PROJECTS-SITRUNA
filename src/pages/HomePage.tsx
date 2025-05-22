@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, type ReactNode } from 'react';
+import { Lock, Compass, Save, Rocket, Cpu, Link as LinkIcon, Users as UsersIcon } from 'lucide-react';
 // Feature card component with hover animation
-const FeatureCard = ({ icon, title, description }: { icon: string, title: string, description: string }) => {
+const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => {
   return (
     <div className="feature-card">
       <div className="feature-icon">{icon}</div>
@@ -12,7 +12,8 @@ const FeatureCard = ({ icon, title, description }: { icon: string, title: string
 };
 
 // Stat card for the dashboard
-const StatCard = ({ label, value, icon }: { label: string, value: string | number, icon: string }) => {
+// Stat card for the dashboard
+const StatCard = ({ label, value, icon }: { label: string; value: string | number; icon: ReactNode }) => {
   return (
     <div className="stat-card">
       <div className="stat-icon">{icon}</div>
@@ -80,10 +81,10 @@ const HomePage: React.FC = () => {
       <div className="stats-dashboard">
         <h2>Project Dashboard</h2>
         <div className="stats-container">
-          <StatCard icon="📄" value={12} label="Documents" />
-          <StatCard icon="🔗" value={24} label="Links" />
-          <StatCard icon="👥" value={5} label="Collaborators" />
-          <StatCard icon="✅" value="87%" label="Completion" />
+          <StatCard icon={<Save />} value={12} label="Documents" />
+          <StatCard icon={<LinkIcon />} value={24} label="Links" />
+          <StatCard icon={<UsersIcon />} value={5} label="Collaborators" />
+          <StatCard icon={<Cpu />} value="87%" label="Completion" />
         </div>
       </div>
 
@@ -91,24 +92,29 @@ const HomePage: React.FC = () => {
       <h2>Key Features</h2>
       <div className="features-grid">
         <FeatureCard 
-          icon="🔒" 
+          icon={<Lock />} 
           title="Secure Authentication" 
           description="Client-side authentication with hashed passwords stored in environment variables" 
         />
         <FeatureCard 
-          icon="🧭" 
+          icon={<Compass />} 
           title="Unified Navigation" 
           description="Seamless navigation between static and dynamic content through a single collapsible TOC" 
         />
         <FeatureCard 
-          icon="💾" 
+          icon={<Save />} 
           title="Persistent Storage" 
           description="User preferences and session data stored locally for a personalized experience" 
         />
         <FeatureCard 
-          icon="🚀" 
+          icon={<Rocket />} 
           title="GitHub Pages Ready" 
           description="Pre-configured for smooth deployment to GitHub Pages with proper routing" 
+        />
+        <FeatureCard 
+          icon={<Cpu />} 
+          title="AI Workflow Proposal" 
+          description="Interactive proposal for implementing AI-enhanced workflows in e-commerce operations" 
         />
       </div>
 

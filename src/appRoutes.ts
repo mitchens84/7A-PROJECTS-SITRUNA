@@ -26,6 +26,12 @@ export const reactAppRoutes: TOCItem[] = [
     path: '/career/proposal',
     type: 'react',
   },
+  {
+    id: 'ai-workflow-proposal',
+    title: 'AI Workflow Proposal',
+    path: '/proposal',
+    type: 'react',
+  },
   // Add other React app routes here
   // Example of a nested route:
   // {

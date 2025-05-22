@@ -1,0 +1,31 @@
+/* MainLayout additional styles */
+
+/* Global Search Button */
+.global-search-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color, #3498db);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 900;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.global-search-btn:hover {
+  background-color: var(--primary-dark, #2980b9);
+  transform: scale(1.05);
+}
+
+.global-search-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 52, 152, 219), 0.5);
+}

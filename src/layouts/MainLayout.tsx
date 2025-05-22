@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Search, Menu, ChevronLeft } from 'lucide-react';
 import CollapsibleTOC from '../components/CollapsibleTOC/CollapsibleTOC';
-import Search from '../components/Search/Search';
+import LocalSearch from '../components/Search/Search';
+import { useAppContext } from '../context/AppContext';
 import '../assets/styles.css'; // Ensure styles are imported
+import '../assets/main-layout.css'; // Import the main layout styles
 
 const MainLayout: React.FC = () => {
   // State to track if the sidebar is collapsed
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { toggleGlobalSearch } = useAppContext();
 
   // Toggle sidebar collapsed state
   const toggleSidebar = () => {
@@ -32,17 +36,27 @@ const MainLayout: React.FC = () => {
   return (
     <div className="app-container">
       {/* Sidebar toggle button */}
-      <button 
-        className="sidebar-toggle-btn" 
+      <button
+        className="sidebar-toggle-btn"
         onClick={toggleSidebar}
-        style={{ left: sidebarCollapsed ? '10px' : '260px' }} // Adjust position based on sidebar state
+        style={{ left: sidebarCollapsed ? '10px' : '260px' }}
+        aria-label={sidebarCollapsed ? 'Open sidebar' : 'Close sidebar'}
       >
-        {sidebarCollapsed ? '☰' : '×'}
+        {sidebarCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
+      </button>
+      
+      {/* Global search button */}
+      <button 
+        className="global-search-btn" 
+        onClick={toggleGlobalSearch}
+        title="Search all content (Ctrl+K / Cmd+K)"
+      >
+        <Search size={18} />
       </button>
       
       {/* Table of Contents with collapsed class when needed */}
       <div className={`toc-container ${sidebarCollapsed ? 'collapsed' : ''}`}>
-        <Search />
+        <LocalSearch />
         <CollapsibleTOC />
       </div>
       

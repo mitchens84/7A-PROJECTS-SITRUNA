@@ -51,6 +51,70 @@ Frontend platform for hosting static sites and interactive React components. Thi
     ```bash
     npm run dev
     ```
+
+5.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+
+6.  **TypeScript type checking:**
+    ```bash
+    npm run typecheck
+    ```
+    
+7.  **Content Management:**
+    - All content is stored in the `/content/` directory
+    - Knowledge map data is in `/content/knowledge-map/`
+    - Workflow proposals are in `/content/workflow-proposals/`
+    - Static pages are in `/content/static-pages/`
+
+## Content Architecture
+
+The project uses a hybrid content management approach:
+
+### 1. Content Structure
+
+The content is organized in a hierarchical structure:
+- **Content Types**: Different types of content (knowledge maps, workflow proposals, etc.)
+- **Content Items**: Individual pieces of content within each type
+- **Content Metadata**: Information about each content item (title, description, author, etc.)
+- **Content Versioning**: Version history for each content item
+
+### 2. Content Loading
+
+Content is loaded dynamically using the `contentLoader.ts` utility:
+- Async loading of content from JSON files
+- Type checking with TypeScript interfaces
+- Fallback to static data if loading fails
+- Caching for improved performance
+
+### 3. Navigation
+
+The project provides multiple ways to navigate content:
+- **Collapsible TOC**: Hierarchical navigation of all content
+- **Breadcrumbs**: Context-aware path navigation
+- **Global Search**: Search across all content types (Ctrl+K/Cmd+K)
+
+## Authentication
+
+This project uses a simple password-based authentication system:
+- Default password is "7A-PROJECTS-SITRUNA" (configurable via environment variables)
+- Authentication state is stored in `sessionStorage`
+- Protected routes require authentication
+
+## Deployment
+
+The project is configured for deployment to GitHub Pages:
+1. Build the project: `npm run build`
+2. The built files will be in the `dist/` directory
+3. Push the `dist/` directory to the `gh-pages` branch of your GitHub repository
+
+## Future Enhancements
+
+See the `PROJECT_COMPLETION_CHECKLIST.md` file for details on planned enhancements and recommendations.
+    ```bash
+    npm run dev
+    ```
     This will typically start the Vite development server, usually on `http://localhost:5173` (or the next available port).
 
 ## Building for Production (GitHub Pages)

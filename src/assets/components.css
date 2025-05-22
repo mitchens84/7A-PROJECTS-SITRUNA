@@ -1,0 +1,98 @@
+.toggle-button {
+  background: none;
+  border: none;
+  padding: 2px 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  font-size: 10px;
+  color: #666;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.toggle-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .toggle-button {
+  color: #aaa;
+}
+
+[data-theme="dark"] .toggle-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Fix for the toggle button and search icon collision */
+.toc-entry {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.toc-entry a, 
+.toc-entry .toc-item-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Improve the heading visibility in dark mode */
+[data-theme="dark"] .content-container h1,
+[data-theme="dark"] .content-container h2,
+[data-theme="dark"] .content-container h3,
+[data-theme="dark"] .content-container h4,
+[data-theme="dark"] .content-container h5,
+[data-theme="dark"] .content-container h6 {
+  color: #e0e0e0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Fix the heading spacing to avoid text overlap */
+.content-container h1,
+.content-container h2,
+.content-container h3 {
+  margin: 1.5em 0 0.75em;
+}
+
+/* Add some spacing to avoid content clash */
+#knowledge-map-container,
+#proposal-container {
+  margin-top: 1.5em;
+}
+
+/* Beautify the lists in Knowledge Map */
+#knowledge-map-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+#knowledge-map-container li {
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  background-color: #f8f8f8;
+  border-left: 4px solid #3498db;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+#knowledge-map-container li:hover {
+  background-color: #e8f4ff;
+  transform: translateX(2px);
+}
+
+[data-theme="dark"] #knowledge-map-container li {
+  background-color: #2d2d2d;
+  border-left-color: #78a9ff;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] #knowledge-map-container li:hover {
+  background-color: #3d3d3d;
+}

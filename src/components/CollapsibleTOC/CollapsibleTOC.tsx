@@ -60,8 +60,8 @@ const CollapsibleTOC: React.FC<CollapsibleTOCProps> = () => {
       <li key={item.id} className={`toc-item level-${level} ${isActive(linkPath) ? 'active' : ''}`}>
         <div className="toc-entry">
           {hasChildren && (
-            <button onClick={() => toggleItem(item.id)} className="toggle-button">
-              {isExpanded ? '-' : '+'}
+            <button onClick={() => toggleItem(item.id)} className="toggle-button" aria-label={isExpanded ? 'Collapse' : 'Expand'}>
+              {isExpanded ? '▼' : '▶'}
             </button>
           )}
           {item.type === 'react' ? (

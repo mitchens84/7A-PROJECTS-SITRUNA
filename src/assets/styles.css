@@ -1,4 +1,28 @@
+:root {
+  --heading-color-light: #333333;
+  --heading-color-dark: #eeeeee;
+  --toc-background: #ffffff;
+  --toc-background-dark: #2a2a2a;
+  --toc-link-color: #0066cc;
+  --toc-link-color-dark: #78a9ff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color-light);
+}
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+  color: var(--heading-color-dark);
+}
 /* /Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/src/assets/styles.css */
+
+/* Import component-specific styles */
+@import url('./components.css');
 
 body {
   font-family: sans-serif;

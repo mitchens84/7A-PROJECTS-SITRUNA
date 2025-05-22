@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitruna Knowledge Map</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <style>
+    #knowledge-map-container {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .node {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .node:hover {
+      filter: brightness(1.2);
+    }
+    
+    .node-label {
+      font-size: 12px;
+      font-weight: 500;
+      pointer-events: none;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    }
+    
+    .link {
+      stroke-opacity: 0.6;
+    }
+    
+    .node-details {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      width: 300px;
+      padding: 15px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    [data-theme="dark"] .node-details {
+      background: rgba(40,40,40,0.9);
+      color: #e0e0e0;
+    }
+    
+    .node-details.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .node-details h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    
+    .node-details p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sitruna Knowledge Map</h1>
+  <div id="knowledge-map-container"></div>
+  <div class="node-details" id="node-details">
+    <h3 id="detail-title">Node Title</h3>
+    <p id="detail-type">Type: <span></span></p>
+    <p id="detail-desc">Description: <span></span></p>
+    <p id="detail-purpose">Purpose: <span></span></p>
+    <p id="detail-components">Components: <span></span></p>
+    <p id="detail-implementation">Implementation: <span></span></p>
+  </div>
+
+  <script type="module">
+    // Auto-storage integration
+    import autoStorage from '/7A-PROJECTS-SITRUNA/src/auto-storage.js';
+    // Load content data
+    import { loadKnowledgeMapData } from '/7A-PROJECTS-SITRUNA/src/utils/content/contentLoader.js';
+
+    // Initialize storage (if needed)
+    autoStorage();
+
+    // Load and render knowledge map with D3.js
+    loadKnowledgeMapData()
+      .then(data => {
+        createForceGraph(data);
+      })
+      .catch(err => console.error('Error loading knowledge map:', err));
+      
+    // Create force-directed graph visualization
+    function createForceGraph(data) {
+      const width = document.getElementById('knowledge-map-container').offsetWidth;
+      const height = document.getElementById('knowledge-map-container').offsetHeight;
+      const nodeRadius = 30;
+      
+      // Color scale for node types
+      const nodeColors = {
+        core: '#ff6b6b',
+        module: '#4ecdc4',
+        service: '#ffd166',
+        external: '#a5a58d'
+      };
+      
+      // Create SVG container
+      const svg = d3.select('#knowledge-map-container')
+        .append('svg')
+          .attr('width', width)
+          .attr('height', height);
+      
+      // Add zoom behavior
+      const g = svg.append('g');
+      svg.call(d3.zoom().on('zoom', (event) => {
+        g.attr('transform', event.transform);
+      }));
+      
+      // Create link lines
+      const links = g.append('g')
+        .selectAll('line')
+        .data(data.connections)
+        .enter()
+        .append('line')
+          .attr('class', 'link')
+          .style('stroke', '#999')
+          .style('stroke-width', d => d.strength === 'strong' ? 3 : 
+                                    d.strength === 'medium' ? 2 : 1);
+      
+      // Create node groups
+      const nodeGroups = g.append('g')
+        .selectAll('g')
+        .data(data.nodes)
+        .enter()
+        .append('g')
+          .attr('class', 'node')
+          .call(d3.drag() // Enable dragging of nodes
+            .on('start', dragStarted)
+            .on('drag', dragging)
+            .on('end', dragEnded))
+          .on('click', showNodeDetails)
+          .on('mouseover', highlightNode)
+          .on('mouseout', unhighlightNode);
+      
+      // Add circles to nodes
+      nodeGroups.append('circle')
+        .attr('r', nodeRadius)
+        .style('fill', d => nodeColors[d.type] || '#ddd')
+        .style('stroke', '#fff')
+        .style('stroke-width', 2);
+      
+      // Add text labels to nodes
+      nodeGroups.append('text')
+        .attr('class', 'node-label')
+        .text(d => d.label)
+        .style('fill', '#333');
+      
+      // Create force simulation
+      const simulation = d3.forceSimulation(data.nodes)
+        .force('link', d3.forceLink()
+          .id(d => d.id)
+          .links(data.connections)
+          .distance(150))
+        .force('charge', d3.forceManyBody().strength(-500))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .on('tick', ticked);
+      
+      // Set up node details panel
+      const detailsPanel = document.getElementById('node-details');
+      const detailTitle = document.getElementById('detail-title');
+      const detailType = document.getElementById('detail-type').querySelector('span');
+      const detailDesc = document.getElementById('detail-desc').querySelector('span');
+      const detailPurpose = document.getElementById('detail-purpose').querySelector('span');
+      const detailComponents = document.getElementById('detail-components').querySelector('span');
+      const detailImpl = document.getElementById('detail-implementation').querySelector('span');
+      
+      // Update positions on each tick
+      function ticked() {
+        links
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+        
+        nodeGroups
+          .attr('transform', d => `translate(${d.x}, ${d.y})`);
+      }
+      
+      // Show node details on click
+      function showNodeDetails(event, d) {
+        detailTitle.textContent = d.label;
+        detailType.textContent = d.type;
+        detailDesc.textContent = d.description;
+        detailPurpose.textContent = d.details?.purpose || 'N/A';
+        detailComponents.textContent = d.details?.components?.join(', ') || 'N/A';
+        detailImpl.textContent = d.details?.implementation || 'N/A';
+        
+        detailsPanel.classList.add('visible');
+        event.stopPropagation();
+      }
+      
+      // Hide details when clicking elsewhere
+      document.getElementById('knowledge-map-container').addEventListener('click', () => {
+        detailsPanel.classList.remove('visible');
+      });
+      
+      // Highlight connected nodes
+      function highlightNode(event, d) {
+        const connectedNodeIds = data.connections
+          .filter(link => link.source.id === d.id || link.target.id === d.id)
+          .flatMap(link => [
+            typeof link.source === 'object' ? link.source.id : link.source, 
+            typeof link.target === 'object' ? link.target.id : link.target
+          ]);
+        
+        nodeGroups.style('opacity', node => 
+          connectedNodeIds.includes(node.id) || node.id === d.id ? 1 : 0.3);
+        
+        links.style('opacity', link => 
+          (link.source.id === d.id || link.target.id === d.id) ? 1 : 0.1);
+      }
+      
+      // Remove highlighting
+      function unhighlightNode() {
+        nodeGroups.style('opacity', 1);
+        links.style('opacity', 1);
+      }
+      
+      // Drag functions
+      function dragStarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+      }
+      
+      function dragging(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+      }
+      
+      function dragEnded(event) {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+      }
+    }
+  </script>
+</body>
+</html>

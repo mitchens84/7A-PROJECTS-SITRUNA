@@ -1,0 +1,66 @@
+.breadcrumbs-container {
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+.breadcrumbs-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.breadcrumbs-item {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.breadcrumbs-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbs-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.breadcrumbs-current {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.breadcrumbs-separator {
+  margin: 0 0.5rem;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .breadcrumbs-container {
+    font-size: 0.75rem;
+    margin: 0.5rem 0;
+  }
+  
+  .breadcrumbs-separator {
+    margin: 0 0.25rem;
+  }
+}
+
+/* Condensed mode for very narrow screens */
+@media (max-width: 480px) {
+  .breadcrumbs-item:not(:first-child):not(:last-child) {
+    display: none;
+  }
+  
+  /* Show the separator between Home and last item only */
+  .breadcrumbs-item:first-child .breadcrumbs-separator {
+    display: block;
+  }
+}

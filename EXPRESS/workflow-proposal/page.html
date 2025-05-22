@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Workflow Proposal</title>
+  <link rel="stylesheet" href="../../assets/styles.css">
+  <style>
+    #proposal-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    
+    .proposal-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    [data-theme="dark"] .proposal-header {
+      border-bottom-color: #444;
+    }
+    
+    .proposal-meta {
+      display: flex;
+      font-size: 0.9rem;
+      color: #666;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    
+    [data-theme="dark"] .proposal-meta {
+      color: #bbb;
+    }
+    
+    .proposal-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+    }
+    
+    .proposal-section h2 {
+      margin-bottom: 0.75rem;
+      font-size: 1.5rem;
+    }
+    
+    .proposal-section p {
+      line-height: 1.6;
+    }
+    
+    .nav-section {
+      position: sticky;
+      top: 20px;
+      padding: 1rem;
+      background: #f5f5f5;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    
+    [data-theme="dark"] .nav-section {
+      background: #333;
+    }
+    
+    .nav-section ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .nav-section li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-section a {
+      display: block;
+      padding: 0.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    
+    .nav-section a:hover,
+    .nav-section a.active {
+      background-color: rgba(0,0,0,0.05);
+    }
+    
+    [data-theme="dark"] .nav-section a:hover,
+    [data-theme="dark"] .nav-section a.active {
+      background-color: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>AI Workflow Proposal</h1>
+  <div id="proposal-container"></div>
+
+  <script type="module">
+    import autoStorage from '/7A-PROJECTS-SITRUNA/src/auto-storage.js';
+    import { loadWorkflowProposal } from '/7A-PROJECTS-SITRUNA/src/utils/content/contentLoader.js';
+
+    autoStorage();
+
+    const container = document.getElementById('proposal-container');
+    loadWorkflowProposal('ai-workflow')
+      .then(data => {
+        if (container && data && data.sections) {
+          // Create header
+          const header = document.createElement('header');
+          header.className = 'proposal-header';
+          
+          const h2 = document.createElement('h2');
+          h2.textContent = data.title;
+          header.appendChild(h2);
+          
+          const description = document.createElement('p');
+          description.textContent = data.description;
+          header.appendChild(description);
+          
+          const meta = document.createElement('div');
+          meta.className = 'proposal-meta';
+          
+          const author = document.createElement('div');
+          author.innerHTML = `<strong>Author:</strong> ${data.author}`;
+          meta.appendChild(author);
+          
+          const date = document.createElement('div');
+          date.innerHTML = `<strong>Date:</strong> ${data.date}`;
+          meta.appendChild(date);
+          
+          header.appendChild(meta);
+          container.appendChild(header);
+          
+          // Create navigation
+          const nav = document.createElement('nav');
+          nav.className = 'nav-section';
+          const navTitle = document.createElement('h3');
+          navTitle.textContent = 'Contents';
+          nav.appendChild(navTitle);
+          
+          const ul = document.createElement('ul');
+          data.sections.forEach(section => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#section-${section.id}`;
+            a.textContent = section.title;
+            a.addEventListener('click', (event) => {
+              event.preventDefault();
+              document.querySelector(`#section-${section.id}`).scrollIntoView({ 
+                behavior: 'smooth' 
+              });
+              // Update active state
+              document.querySelectorAll('.nav-section a').forEach(link => {
+                link.classList.remove('active');
+              });
+              a.classList.add('active');
+            });
+            li.appendChild(a);
+            ul.appendChild(li);
+          });
+          
+          nav.appendChild(ul);
+          container.appendChild(nav);
+          
+          // Create content sections
+          const content = document.createElement('div');
+          content.className = 'proposal-content';
+          
+          data.sections.forEach(sec => {
+            const sectionEl = document.createElement('section');
+            sectionEl.id = `section-${sec.id}`;
+            sectionEl.className = 'proposal-section';
+            
+            const titleEl = document.createElement('h2');
+            titleEl.textContent = sec.title;
+            
+            const contentEl = document.createElement('p');
+            contentEl.textContent = sec.content;
+            
+            sectionEl.appendChild(titleEl);
+            sectionEl.appendChild(contentEl);
+            content.appendChild(sectionEl);
+          });
+          
+          container.appendChild(content);
+          
+          // Set up intersection observer to track active section
+          const sections = document.querySelectorAll('.proposal-section');
+          const navLinks = document.querySelectorAll('.nav-section a');
+          
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                  link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                });
+              }
+            });
+          }, { threshold: 0.2 });
+          
+          sections.forEach(section => {
+            observer.observe(section);
+          });
+        }
+      })
+      .catch(err => console.error('Error loading workflow proposal:', err));
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+{
+  "title": "Sitruna Knowledge Map",
+  "description": "Interactive visualization of the Sitruna knowledge management system architecture",
+  "nodes": [
+    {
+      "id": "sitruna-core",
+      "x": 400,
+      "y": 300,
+      "label": "Sitruna Core",
+      "type": "core",
+      "description": "Central knowledge management system for Sitruna",
+      "details": {
+        "purpose": "Organize and connect all Sitruna knowledge",
+        "components": ["Knowledge graph", "Document repository", "User profiles", "Integration APIs"],
+        "implementation": "NodeJS + React + Neo4j Graph Database"
+      }
+    },
+    {
+      "id": "artifact-management",
+      "x": 650,
+      "y": 200,
+      "label": "Artifact Management",
+      "type": "module",
+      "description": "System for organizing digital artifacts",
+      "details": {
+        "purpose": "Maintain and version digital assets",
+        "components": ["File storage", "Version control", "Metadata tagging", "Search capabilities"],
+        "implementation": "MinIO + PostgreSQL + ElasticSearch"
+      }
+    },
+    {
+      "id": "user-profiles",
+      "x": 650,
+      "y": 400,
+      "label": "User Profiles",
+      "type": "module",
+      "description": "User management and authentication",
+      "details": {
+        "purpose": "User identity and access control",
+        "components": ["Authentication", "Authorization", "Profile management", "Activity tracking"],
+        "implementation": "OAuth2 + JWT + Redis"
+      }
+    },
+    {
+      "id": "workflow-engine",
+      "x": 200,
+      "y": 150,
+      "label": "Workflow Engine",
+      "type": "module",
+      "description": "Process automation system",
+      "details": {
+        "purpose": "Automate business processes and workflows",
+        "components": ["Task orchestration", "State management", "Notifications", "SLA monitoring"],
+        "implementation": "Temporal + gRPC"
+      }
+    },
+    {
+      "id": "analytics",
+      "x": 200,
+      "y": 450,
+      "label": "Analytics Platform",
+      "type": "module",
+      "description": "Data analysis and visualization",
+      "details": {
+        "purpose": "Provide insights from system data",
+        "components": ["Data pipeline", "Metrics collection", "Dashboards", "Reports"],
+        "implementation": "Apache Kafka + ClickHouse + Grafana"
+      }
+    },
+    {
+      "id": "integration-hub",
+      "x": 400,
+      "y": 550,
+      "label": "Integration Hub",
+      "type": "module",
+      "description": "External system integrations",
+      "details": {
+        "purpose": "Connect with third-party systems",
+        "components": ["API gateway", "Connector framework", "Data transformation", "Webhook management"],
+        "implementation": "Kong + NestJS + Apache Camel"
+      }
+    }
+  ],
+  "connections": [
+    { "source": "sitruna-core", "target": "artifact-management", "strength": "strong" },
+    { "source": "sitruna-core", "target": "user-profiles", "strength": "strong" },
+    { "source": "sitruna-core", "target": "workflow-engine", "strength": "medium" },
+    { "source": "sitruna-core", "target": "analytics", "strength": "medium" },
+    { "source": "sitruna-core", "target": "integration-hub", "strength": "strong" },
+    { "source": "artifact-management", "target": "user-profiles", "strength": "medium" },
+    { "source": "workflow-engine", "target": "analytics", "strength": "weak" },
+    { "source": "workflow-engine", "target": "integration-hub", "strength": "medium" },
+    { "source": "analytics", "target": "integration-hub", "strength": "medium" }
+  ]
+}

@@ -1,7 +1,22 @@
 [
   {
+    "title": "Data Visualization Demo",
+    "path": "/7A-PROJECTS-SITRUNA/EXPRESS/data-visualization/index.html",
+    "type": "static"
+  },
+  {
     "title": "Example Static Site",
     "path": "/7A-PROJECTS-SITRUNA/EXPRESS/example-static-site/index.html",
+    "type": "static"
+  },
+  {
+    "title": "Sitruna Knowledge Map",
+    "path": "/7A-PROJECTS-SITRUNA/EXPRESS/knowledge-map/index.html",
+    "type": "static"
+  },
+  {
+    "title": "AI Workflow Proposal",
+    "path": "/7A-PROJECTS-SITRUNA/EXPRESS/workflow-proposal/index.html",
     "type": "static"
   }
 ]
