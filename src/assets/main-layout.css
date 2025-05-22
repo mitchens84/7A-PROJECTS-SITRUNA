@@ -4,7 +4,7 @@
 .global-search-btn {
   position: fixed;
   top: 10px;
-  right: 10px;
+  right: 20px; /* Ensure it's on the right */
   width: 40px;
   height: 40px;
   display: flex;
@@ -15,9 +15,10 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 900;
+  z-index: 1051; /* Increased z-index */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
+  margin-left: 10px; /* Add some margin to avoid overlap with a potential ToC toggle if it were also on the right */
 }
 
 .global-search-btn:hover {
@@ -28,4 +29,34 @@
 .global-search-btn:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 52, 152, 219), 0.5);
+}
+
+.sidebar-toggle-btn {
+  z-index: 1050; /* Ensure it's above other elements like the search button if positions clash */
+}
+
+/* Adjustments for TOC container to prevent overlap with global search */
+.toc-container {
+  padding-top: 60px; /* Increased padding-top */
+}
+
+/* If LocalSearch is inside toc-container and fixed at top */
+.toc-container .search-container { /* Changed to .search-container based on styles.css */
+  position: fixed;
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed, considering sidebar */
+  width: calc(250px - 40px); /* TOC width minus padding */
+  z-index: 1001; /* Above TOC content but below sidebar toggle */
+  background: var(--toc-background); /* Use TOC background variable */
+  padding-bottom: 10px; /* Increased space */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+body[data-theme="dark"] .toc-container .search-container {
+  background: var(--toc-background-dark); /* Dark theme background for search */
+}
+
+
+.toc-container .collapsible-toc { /* Changed to .collapsible-toc based on CollapsibleTOC.tsx */
+  margin-top: 60px; /* Increased margin-top */
 }

@@ -64,5 +64,5 @@ export async function getAvailableStaticPages() {
 
 // Function to load data visualization data
 export async function loadDataVisualizationData() {
-  return await fetchJsonContent('/content/data-visualization/chart-data.json');
+  return await fetchJsonContent('/7A-PROJECTS-SITRUNA/content/data-visualization/chart-data.json');
 }

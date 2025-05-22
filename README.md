@@ -5,6 +5,10 @@ Frontend platform for hosting static sites and interactive React components. Thi
 ## Project Structure
 
 -   **`EXPRESS/`**: Contains standalone static HTML sites and content. Each subdirectory is a separate site/section.
+    -   **`knowledge-map/`**: Interactive D3.js based knowledge map.
+    -   **`workflow-proposal/`**: Dynamically rendered workflow proposal.
+    -   **`data-visualization/`**: Chart visualization page.
+    -   *(Other static content directories as needed)*
 -   **`src/`**: Contains the React application source code.
     -   **`assets/`**: Static assets like CSS, images for the React app.
     -   **`components/`**: Reusable React components (e.g., `CollapsibleTOC`, `ProtectedRoute`).
@@ -14,8 +18,11 @@ Frontend platform for hosting static sites and interactive React components. Thi
     -   **`pages/`**: Top-level page components mapped to routes.
     -   **`services/`**: Services like authentication logic.
     -   **`utils/`**: Utility functions (e.g., `localStorageUtils`).
+    -   **`utils/content/contentLoader.js`**: Utility to load dynamic JSON data for `EXPRESS/` pages.
     -   **`appRoutes.ts`**: Defines React app routes and ToC entries for these routes.
     -   **`toc-static-data.json`**: Auto-generated list of static content from `EXPRESS/` for the ToC.
+    -   **`auto-storage.js`**: Script for managing persistent storage for `EXPRESS/` pages, often used with `contentLoader.js`.
+    -   **`storage-manager.js`**: Helper for `auto-storage.js` providing an API for `localStorage` and `sessionStorage`.
 -   **`scripts/`**: Node.js scripts for build process tasks (e.g., `generate-static-toc.js`).
 -   **`public/`**: Static assets served directly by Vite (e.g., `favicon.ico`).
 -   **`PROJECT_BRIEF.md`**: Detailed project specification.
@@ -66,6 +73,7 @@ Frontend platform for hosting static sites and interactive React components. Thi
     - All content is stored in the `/content/` directory
     - Knowledge map data is in `/content/knowledge-map/`
     - Workflow proposals are in `/content/workflow-proposals/`
+    - Data visualization data is in `/content/data-visualization/` (e.g., `chart-data.json`)
     - Static pages are in `/content/static-pages/`
 
 ## Content Architecture
@@ -75,18 +83,19 @@ The project uses a hybrid content management approach:
 ### 1. Content Structure
 
 The content is organized in a hierarchical structure:
-- **Content Types**: Different types of content (knowledge maps, workflow proposals, etc.)
-- **Content Items**: Individual pieces of content within each type
-- **Content Metadata**: Information about each content item (title, description, author, etc.)
-- **Content Versioning**: Version history for each content item
+- **Content Types**: Different types of content (knowledge maps, workflow proposals, data visualizations, etc.)
+- **Content Items**: Individual pieces of content within each type (e.g., `nodes-data.json` for knowledge map, `ai-workflow.json` for a specific proposal, `chart-data.json` for a visualization).
+- **Content Metadata**: Information about each content item (title, description, author, etc.) - often embedded within the JSON or managed by the loading page.
+- **Content Versioning**: Version history for each content item (managed via Git).
 
 ### 2. Content Loading
 
-Content is loaded dynamically using the `contentLoader.ts` utility:
-- Async loading of content from JSON files
-- Type checking with TypeScript interfaces
-- Fallback to static data if loading fails
-- Caching for improved performance
+-   **React App**: Content for React components/pages is typically imported directly or fetched via API calls if dynamic.
+-   **`EXPRESS/` Pages**:
+    -   Static HTML pages in `EXPRESS/` can load dynamic data from JSON files located in the `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/content/` directory.
+    -   The `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/src/utils/content/contentLoader.js` script is provided to facilitate this. It fetches and parses JSON data, making it available to the static page's JavaScript.
+    -   `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/src/auto-storage.js` (and its helper `storage-manager.js`) can be used by these static pages to persist user inputs or state related to the loaded content (e.g., form data, interaction states).
+    -   Data is typically fetched using paths relative to the `content/` directory, e.g., `contentLoader.fetchData('/7A-PROJECTS-SITRUNA/content/knowledge-map/nodes-data.json')`.
 
 ### 3. Navigation
 
@@ -135,8 +144,10 @@ See the `PROJECT_COMPLETION_CHECKLIST.md` file for details on planned enhancemen
 ## Key Features Implemented
 
 *   **Tier 1 Client-Side Authentication:** Login page with hashed password checking.
-*   **Unified Collapsible Table of Contents:** Dynamically generated from `EXPRESS/` static content and React app routes.
-*   **Persistent Storage:** Using `localStorage` for form inputs and ToC state, `sessionStorage` for auth status.
+*   **Unified Collapsible Table of Contents:** Dynamically generated from `EXPRESS/` static content (via `toc-static-data.json` updated by `npm run generate-static-toc`) and React app routes (defined in `appRoutes.ts`).
+*   **Persistent Storage:**
+    *   React App: Using `localStorage` for form inputs and ToC state, `sessionStorage` for auth status.
+    *   `EXPRESS/` Pages: Can utilize `auto-storage.js` for `localStorage`/`sessionStorage` interactions.
 *   **GitHub Pages Deployment Configuration:** `vite.config.ts` and `package.json` are pre-configured.
 *   **`proposal.tsx` Integration:** Included as a dedicated page within the React application.
 

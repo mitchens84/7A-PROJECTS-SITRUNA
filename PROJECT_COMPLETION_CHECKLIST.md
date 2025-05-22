@@ -17,6 +17,9 @@ This document outlines the completed tasks and pending actions for the "7A-PROJE
     - `src/services/` (implicitly, via `authService.ts`)
     - `src/utils/`
     - `EXPRESS/example-static-site/`
+  - `EXPRESS/knowledge-map/`
+  - `EXPRESS/workflow-proposal/`
+  - `EXPRESS/data-visualization/`
 - [X] Configured `package.json` with GitHub username (`mitchens84`) for `homepage` URL.
 - [X] Created `.env.local` with `VITE_APP_PASSWORD_HASH` (for "7A-PROJECTS-SITRUNA"), `VITE_APP_TITLE`, and `VITE_APP_BASE_URL`.
 
@@ -31,8 +34,11 @@ This document outlines the completed tasks and pending actions for the "7A-PROJE
 - [X] `src/components/CollapsibleTOC/CollapsibleTOC.tsx`: Implemented collapsible Table of Contents.
     - Merges dynamic React routes (from `appRoutes.ts`) and static links (from `toc-static-data.json`).
     - Persists expansion state using `localStorage` (key: `sitruna_toc_expanded_sections`) via `usePersistentState.ts`.
-- [X] `toc-static-data.json`: Created with placeholder structure for static content links.
-- [X] `EXPRESS/example-static-site/index.html`: Created placeholder static HTML page.
+- [X] `src/components/GlobalSearch.tsx`: Fixed navigation issue by moving component within Router context and adding error handling.
+- [X] `src/layouts/MainLayout.tsx`: Updated sidebar toggle icons.
+- [X] `src/components/CollapsibleTOC/CollapsibleTOC.tsx`: Updated ToC toggle icons.
+- [X] `toc-static-data.json`: Regenerated to include new EXPRESS content.
+- [X] `vite.config.ts`: Confirmed `base` path is `/7A-PROJECTS-SITRUNA/`.
 
 ### 4. Content Pages & Routing
 - [X] `src/appRoutes.ts`: Defined `TOCItem` interface and `reactAppRoutes` for React-based ToC entries.
@@ -43,13 +49,27 @@ This document outlines the completed tasks and pending actions for the "7A-PROJE
     - Dynamically sets base URL for router using `VITE_APP_BASE_URL`.
 - [X] `src/pages/HomePage.tsx`: Created a basic home page component.
 - [X] `src/features/career/proposal.tsx` (as `AIWorkflowProposalPage`): Adapted external `proposal.tsx` content into a new React component.
+- [X] `EXPRESS/knowledge-map/page.html` & `index.html`: Implemented D3.js force-directed graph for knowledge map visualization.
+- [X] `EXPRESS/workflow-proposal/page.html` & `index.html`: Implemented dynamic rendering of workflow proposal sections with sticky navigation.
+- [X] `EXPRESS/data-visualization/index.html`: Implemented Chart.js demo (currently with hardcoded data).
+- [X] `content/knowledge-map/nodes-data.json`: Data source for Knowledge Map.
+- [X] `content/workflow-proposals/ai-workflow.json`: Data source for AI Workflow Proposal.
 
 ### 5. Utilities & Hooks
 - [X] `src/utils/localStorageUtils.ts`: Provided utility functions for `localStorage` and `sessionStorage`. Updated `getSessionStorageItem` to correctly handle non-JSON string values.
 - [X] `src/hooks/usePersistentState.ts`: Created custom hook for state persisted in `localStorage`.
+- [X] Integrated `auto-storage.js` and `storage-manager.js` into `src` for use by EXPRESS pages.
+- [X] Created `src/utils/content/contentLoader.js` for loading dynamic data into EXPRESS pages.
 
-### 6. Styling
+### 6. Styling & UI/UX Improvements
 - [X] `src/assets/styles.css`: Populated with global CSS, styles for ToC, login page, `AIWorkflowProposalPage`, and other components.
+- [X] `src/assets/styles.css`: Added global CSS variables for theming (e.g., heading colors).
+- [X] `src/assets/components.css`: Created for component-specific styles.
+  - Addressed ToC toggle/search icon clash.
+  - Improved heading visibility in dark mode.
+  - Adjusted heading spacing to prevent content overlap.
+  - Beautified list styles for Knowledge Map details.
+- [X] Corrected CSS import paths in EXPRESS HTML files to be absolute.
 
 ### 7. Documentation & Repository
 - [X] Updated `COMPREHENSIVE_FRONTEND_GUIDE.md` with GitHub username and password conventions for GitHub Pages deployment and `.env.local` setup.
@@ -80,121 +100,22 @@ This document outlines the completed tasks and pending actions for the "7A-PROJE
    - Added global search button to main layout
    - Added keyboard shortcuts for global search (Ctrl+K/Cmd+K)
 
-## II. Pending User Actions
+## II. Pending Actions & Known Issues
 
-### 1. Static Content Population
-- [ ] Replace placeholder content in `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/EXPRESS/example-static-site/index.html` with actual static content.
-- [ ] Add any other static sites to the `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/EXPRESS/` directory as needed.
-- [ ] Update paths and titles in `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/toc-static-data.json` to accurately reflect all static content.
+- [ ] **Data Visualization**: Resolve file creation issue for `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/content/data-visualization/chart-data.json`. Currently uses hardcoded data.
+- [ ] **Testing**:
+    - [ ] Thoroughly test all EXPRESS pages for functionality and data loading (once `chart-data.json` is fixed).
+    - [ ] Conduct comprehensive cross-browser and responsiveness testing.
+    - [ ] Verify all links and interactive elements across the application.
+- [ ] **Documentation**:
+    - [ ] Update root `PROJECT_COMPLETION_CHECKLIST.md` to mirror this checklist.
+    - [X] Update `/7A-PROJECTS-SITRUNA/README.md` with details about new EXPRESS content and features. (Will be done next)
+- [ ] **Code Quality & Refinement**:
+    - [ ] Review and refactor `contentLoader.js` if more content types or complex loading logic is needed.
+    - [ ] Further refine CSS for pixel-perfect alignment and theming if required.
 
-### 2. Additional Project Enhancements
-- [ ] **Content Structure**
-   - [ ] Create additional content types and schemas
-   - [ ] Implement content metadata for better search indexing
-   - [ ] Add content relationships (references, prerequisites, etc.)
+## III. Future Considerations (Optional)
 
-- [ ] **UI/UX Improvements**
-   - [ ] Enhance the Table of Contents component
-   - [ ] Add dark mode toggle
-   - [ ] Implement responsive design for mobile devices
-   - [ ] Add loading indicators for content fetching
-
-- [ ] **SEO and Accessibility**
-   - [ ] Add meta tags for SEO
-   - [ ] Improve accessibility (ARIA attributes, keyboard navigation)
-   - [ ] Add structured data for search engines
-
-- [ ] **Performance Optimization**
-   - [ ] Implement code splitting
-   - [ ] Add caching for content
-   - [ ] Optimize assets (images, CSS)
-
-- [ ] **Testing**
-   - [ ] Add unit tests for components
-   - [ ] Add integration tests for content loading
-   - [ ] Add end-to-end tests for user flows
-
-- [ ] **Documentation**
-   - [ ] Create developer documentation
-   - [ ] Add content authoring guidelines
-   - [ ] Document component API
-
-### 3. Local Testing
-- [ ] Run the application locally (`npm run dev` in `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/`).
-- [ ] Thoroughly test all features:
-    - [ ] Authentication flow (login with "7A-PROJECTS-SITRUNA", logout, access to protected routes).
-    - [ ] ToC navigation for both React routes and static content links.
-    - [ ] Persistence of ToC expanded sections (`localStorage`).
-    - [ ] `AIWorkflowProposalPage` display and functionality.
-    - [ ] Overall styling and application behavior across different screen sizes.
-    - [ ] Global search functionality (Ctrl+K/Cmd+K shortcut and search button).
-    - [ ] Breadcrumbs navigation.
-    - [ ] Content loading from `/content/` directory.
-
-### 4. GitHub Repository & Deployment
-- [ ] Initialize a Git repository in `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/` (if not already done).
-- [ ] Add the remote origin for the newly created `7A-PROJECTS-SITRUNA` repository:
-    ```bash
-    git remote add origin https://github.com/mitchens84/7A-PROJECTS-SITRUNA.git
-    ```
-- [ ] Commit all changes and push to GitHub:
-    ```bash
-    git add .
-    git commit -m "Initial commit"
-    git push -u origin main
-    ```
-- [ ] Verify that GitHub Pages deployment is configured correctly (Settings > Pages > Source: `gh-pages` branch).
-- [ ] Test the deployed application at `https://mitchens84.github.io/7A-PROJECTS-SITRUNA/`.
-
-### 5. Project Brief Finalization
-- [ ] Review and update `PROJECT_BRIEF.md` in `/Users/mitchens/Local/PAGES/7A-PROJECTS-SITRUNA/` with any final details, especially:
-    - Primary Contact/Owner
-    - Target Audience
-    - Color Scheme, Fonts, Logo (if applicable)
-    - Airtable integration details (if planned for this specific project)
-
-## III. Implementation Details
-
-### 1. Content Directory Structure
-The content is organized in the following directories:
-- `/content/knowledge-map/` - Knowledge map data
-- `/content/workflow-proposals/` - Workflow proposal documents
-- `/content/static-pages/` - Static HTML pages
-
-### 2. Content Loading
-Content is loaded using the utilities in `src/utils/content/contentLoader.ts`. This allows for:
-- Asynchronous loading of content
-- Type-safe content structures
-- Error handling and fallbacks
-
-### 3. Global Search
-The global search feature:
-- Searches across all content types
-- Provides real-time filtering
-- Ranks results by relevance
-- Supports keyboard navigation
-- Offers direct links to content
-
-### 4. Content Versioning
-The versioning utilities in `src/utils/content/versioningUtils.ts` provide:
-- Version history tracking
-- Ability to compare versions
-- Reversion to previous versions
-- Audit trail with authors and comments
-
-## IV. Recommendations for Future Enhancement
-
-### 1. Content Strategy
-- Define a consistent content authoring workflow
-- Create templates for different content types
-- Implement a content review process
-
-### 2. Technical Improvements
-- Consider using a headless CMS for content management
-- Implement server-side rendering for better SEO
-- Add analytics to track content usage
-
-### 3. User Experience
-- Conduct user testing to identify pain points
-- Analyze search patterns to improve content organization
-- Create guided tours for new users
+- [ ] Implement more robust error handling and user feedback mechanisms.
+- [ ] Add unit and integration tests.
+- [ ] Expand on the content within the EXPRESS pages.

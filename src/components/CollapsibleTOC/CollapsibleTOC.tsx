@@ -74,7 +74,10 @@ const CollapsibleTOC: React.FC<CollapsibleTOCProps> = () => {
         </div>
         {hasChildren && isExpanded && (
           <ul className="toc-list nested">
-            {item.children?.map(child => renderTocItem(child, level + 1))}
+            {item.children?.map(child => (
+              // Add key prop to child list items
+              <React.Fragment key={child.id}>{renderTocItem(child, level + 1)}</React.Fragment>
+            ))}
           </ul>
         )}
       </li>
@@ -89,7 +92,10 @@ const CollapsibleTOC: React.FC<CollapsibleTOCProps> = () => {
     <nav className="collapsible-toc">
       <h3>Table of Contents</h3>
       <ul className="toc-list">
-        {tocItems.map(item => renderTocItem(item))}
+        {tocItems.map(item => (
+          // Add key prop to top-level list items
+          <React.Fragment key={item.id}>{renderTocItem(item)}</React.Fragment>
+        ))}
       </ul>
     </nav>
   );

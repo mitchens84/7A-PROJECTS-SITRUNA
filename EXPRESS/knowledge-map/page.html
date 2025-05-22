@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sitruna Knowledge Map</title>
-  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="/7A-PROJECTS-SITRUNA/src/assets/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <style>
     #knowledge-map-container {
@@ -94,7 +94,7 @@
     import { loadKnowledgeMapData } from '/7A-PROJECTS-SITRUNA/src/utils/content/contentLoader.js';
 
     // Initialize storage (if needed)
-    autoStorage();
+    // autoStorage(); // Removed: autoStorage initializes itself via its constructor upon import
 
     // Load and render knowledge map with D3.js
     loadKnowledgeMapData()

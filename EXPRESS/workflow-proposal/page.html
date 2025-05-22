@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Workflow Proposal</title>
-  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="/7A-PROJECTS-SITRUNA/src/assets/styles.css">
   <style>
     #proposal-container {
       max-width: 800px;
@@ -95,10 +95,7 @@
   <div id="proposal-container"></div>
 
   <script type="module">
-    import autoStorage from '/7A-PROJECTS-SITRUNA/src/auto-storage.js';
     import { loadWorkflowProposal } from '/7A-PROJECTS-SITRUNA/src/utils/content/contentLoader.js';
-
-    autoStorage();
 
     const container = document.getElementById('proposal-container');
     loadWorkflowProposal('ai-workflow')

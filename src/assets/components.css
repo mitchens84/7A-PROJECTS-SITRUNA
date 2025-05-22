@@ -49,15 +49,34 @@
 [data-theme="dark"] .content-container h4,
 [data-theme="dark"] .content-container h5,
 [data-theme="dark"] .content-container h6 {
-  color: #e0e0e0;
+  color: var(--color-text-dark-primary, #e0e0e0); /* Use CSS variable or fallback */
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 /* Fix the heading spacing to avoid text overlap */
+/* Applied to all heading levels within .content-container */
 .content-container h1,
 .content-container h2,
-.content-container h3 {
-  margin: 1.5em 0 0.75em;
+.content-container h3,
+.content-container h4,
+.content-container h5,
+.content-container h6 {
+  margin-top: 1.8em;    /* Increased top margin */
+  margin-bottom: 0.8em; /* Adjusted bottom margin */
+  padding-bottom: 0.2em; /* Add a little padding at the bottom */
+  line-height: 1.3;     /* Ensure sufficient line height */
+}
+
+/* Specific adjustments for larger headings if needed */
+.content-container h1 {
+  font-size: 2.2em; /* Example: adjust size */
+  margin-top: 1em; /* Larger headings might need less top margin if they are the first element */
+  margin-bottom: 0.6em;
+}
+.content-container h2 {
+  font-size: 1.8em;
+  margin-top: 1.5em;
+  margin-bottom: 0.7em;
 }
 
 /* Add some spacing to avoid content clash */
