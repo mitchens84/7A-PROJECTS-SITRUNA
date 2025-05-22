@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sitruna Knowledge Map</title>
-  <link rel="stylesheet" href="../../assets/styles.css">
+  <link rel="stylesheet" href="/7A-PROJECTS-SITRUNA/src/assets/styles.css">
 </head>
 <body>
   <h1>Sitruna Knowledge Map</h1>
@@ -14,8 +14,8 @@
     import autoStorage from '/7A-PROJECTS-SITRUNA/src/auto-storage.js';
     import { loadKnowledgeMapData } from '/7A-PROJECTS-SITRUNA/src/utils/content/contentLoader.js';
 
-    autoStorage();
-
+    // autoStorage initializes itself on import, no need to call it
+    
     loadKnowledgeMapData()
       .then(data => {
         const container = document.getElementById('knowledge-map-container');
